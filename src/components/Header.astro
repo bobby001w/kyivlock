@@ -1,6 +1,6 @@
 ---
 // Меню — чисті HTML-посилання (працює без JS): desktop — випадаючі списки на :hover/:focus-within,
-// mobile — <details>. Усі послуги, райони й міста — максимум 2 кліки від будь-якої сторінки.
+// mobile — <details>-оверлей з акордеонами (main.js лише додає aria-expanded, блокування прокрутки й закриття). Усі послуги, райони й міста — максимум 2 кліки від будь-якої сторінки.
 // Перемикач мови веде на ту саму сторінку іншою мовою (data-keep — щоб middleware не додав /ru/).
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
@@ -44,16 +44,16 @@ const here = basePath(Astro.url.pathname);
       <a href="/kontakty/">{t('Контакти', 'Контакты')}</a>
     </nav>
     <a class="hdr-phone" href={links.phone} data-ga="phone_click">{BUSINESS.phone}</a>
-    <details class="menu-m">
-      <summary aria-label={t('Відкрити меню', 'Открыть меню')}><Icon name="menu" class="" /></summary>
-      <div class="menu-panel">
+    <details class="menu-m" id="menu-m">
+      <summary aria-label={t('Відкрити меню', 'Открыть меню')} aria-controls="mmenu" aria-expanded="false" data-open={t('Відкрити меню', 'Открыть меню')} data-close={t('Закрити меню', 'Закрыть меню')}><Icon name="menu" class="ic-open" /><Icon name="close" class="ic-close" /></summary>
+      <nav class="menu-panel" id="mmenu" aria-label={t('Мобільне меню', 'Мобильное меню')}>
         {!noSwitch && <div class="menu-lang">{t('Мова', 'Язык')}: {l === 'uk' ? <b>Українська</b> : <a data-keep href={localePath(here, 'uk')} hreflang="uk" lang="uk">Українська</a>} · {l === 'ru' ? <b>Русский</b> : <a data-keep href={localePath(here, 'ru')} hreflang="ru" lang="ru">Русский</a>}</div>}
         <details><summary>{t('Послуги', 'Услуги')}</summary><a href="/poslugy/">{t('Усі послуги', 'Все услуги')}</a>{svc.map((s) => <a href={s.path}>{s.short}</a>)}</details>
         <details><summary>{t('Ключі запалювання', 'Ключи зажигания')}</summary><a href={IGN}>{t('Усі послуги з ключами', 'Все услуги с ключами')}</a>{IGN_PAGES.map((s) => <a href={s.path}>{s.short}</a>)}<a href={IGN + 'marky/'}>{t('За марками авто', 'По маркам авто')}</a></details>
         <details><summary>{t('Райони Києва', 'Районы Киева')}</summary><a href="/kyiv/">{t('Усі райони', 'Все районы')}</a>{DISTRICTS.map((d) => <a href={placeUrl(d)}>{d.name}</a>)}</details>
-        <details><summary>{t('Київська область', 'Киевская область')}</summary><a href="/kyivska-oblast/">{t('Уся область', 'Вся область')}</a>{TOP_CITIES.map((c) => <a href={placeUrl(c)}>{c.name}</a>)}</details>
+        <details><summary>{t('Київська область', 'Киевская область')}</summary><a href="/kyivska-oblast/">{t('Уся область', 'Вся область')}</a>{TOP_CITIES.map((c) => <a href={placeUrl(c)}>{c.name}</a>)}{RAIONS.map((r) => <a href={placeUrl(r)}>{r.name}</a>)}</details>
         <a href="/tsiny/">{t('Ціни', 'Цены')}</a><a href="/vidhuky/">{t('Відгуки', 'Отзывы')}</a><a href="/blog/">{t('Блог', 'Блог')}</a><a href="/faq/">{t('Питання і відповіді', 'Вопросы и ответы')}</a><a href="/pro-nas/">{t('Про нас', 'О нас')}</a><a href="/kontakty/">{t('Контакти', 'Контакты')}</a>
-      </div>
+      </nav>
     </details>
   </div>
 </header>

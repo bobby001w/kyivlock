@@ -184,8 +184,8 @@ export const SERVICES: Service[] = [
     related: [P + 'zamina-zamkiv/', P + 'zamina-lychynky/', P + 'vidkryttia-ofisiv/'],
   },
   {
-    slug: 'vidkryttia-pislia-vtraty-kliuchiv', path: P + 'vidkryttia-pislia-vtraty-kliuchiv/', name: 'Вскриття після злому або втрати ключів', short: 'Після злому / втрати ключів', icon: 'shield',
-    h1: 'Вскриття замка після злому або втрати ключів',
+    slug: 'vidkryttia-pislia-vtraty-kliuchiv', path: P + 'vidkryttia-pislia-vtraty-kliuchiv/', name: 'Відкриття після злому або втрати ключів', short: 'Після злому / втрати ключів', icon: 'shield',
+    h1: 'Відкриття замка після злому або втрати ключів',
     title: 'Втрата ключів і злом замка — допомога 24/7 | KyivLock',
     description: 'Загубили ключі чи двері пошкоджено після злому? Відкриємо, відновимо замок і змінимо секрет, щоб старі ключі більше не підходили. Дзвоніть {PHONE}.',
     lead: 'Загублені ключі — це не лише проблема потрапити додому, а й ризик, що їх знайде сторонній. Після злому ж замок часто зламаний і двері неможливо зачинити. Вирішимо обидві задачі за один виїзд.',

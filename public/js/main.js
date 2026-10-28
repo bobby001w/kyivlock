@@ -83,6 +83,29 @@
     });
   }
 
+  // Мобільне меню (<details>): оверлей під шапкою, aria-expanded, блокування прокрутки сторінки,
+  // закриття по Escape і по кліку на посилання; в акордеоні відкритий лише один підрозділ.
+  var mm = document.getElementById('menu-m'), mp = document.getElementById('mmenu');
+  if (mm && mp) {
+    var ms = mm.querySelector('summary'), root = document.documentElement;
+    var place = function () { root.style.setProperty('--menu-top', Math.max(0, Math.round(mm.closest('.hdr').getBoundingClientRect().bottom)) + 'px'); };
+    mm.addEventListener('toggle', function () {
+      var o = mm.open;
+      if (o) place();
+      ms.setAttribute('aria-expanded', String(o));
+      ms.setAttribute('aria-label', o ? ms.dataset.close : ms.dataset.open);
+      root.classList.toggle('menu-open', o);
+    });
+    mp.addEventListener('click', function (e) { if (e.target.closest('a')) mm.open = false; });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && mm.open) { mm.open = false; ms.focus(); } });
+    [].forEach.call(mp.querySelectorAll('details'), function (d) {
+      d.addEventListener('toggle', function () {
+        if (d.open) [].forEach.call(mp.querySelectorAll('details[open]'), function (x) { if (x !== d) x.open = false; });
+      });
+    });
+    w.addEventListener('resize', function () { if (mm.open) place(); });
+  }
+
   // Тінь шапки при прокрутці
   var hdr = document.querySelector('.hdr');
   if (hdr) {
