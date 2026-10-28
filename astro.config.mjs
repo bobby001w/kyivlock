@@ -1,10 +1,11 @@
 import { defineConfig } from 'astro/config';
 
-// Канонічний домен (без www, лише https). Змініть через змінну SITE_URL при деплої.
-const SITE = process.env.SITE_URL || 'https://kyivlock.com.ua';
-
+// Адреса публікації: зараз GitHub Pages — https://bobby001w.github.io/kyivlock/.
+// Для власного домену задайте при збірці SITE_URL=https://kyivlock.com.ua і BASE_PATH=/
+// (у коді шляхи пишемо без base — префікс додають middleware, abs() і sitemap).
 export default defineConfig({
-  site: SITE,
+  site: process.env.SITE_URL || 'https://bobby001w.github.io',
+  base: process.env.BASE_PATH || '/kyivlock',
   trailingSlash: 'always',
   build: {
     format: 'directory',

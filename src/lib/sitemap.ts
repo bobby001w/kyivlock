@@ -18,7 +18,7 @@ export async function entries(): Promise<Entry[]> {
 
 // Кожна мовна версія — окремий <url> з повним набором hreflang-альтернатив (вимога Google для sitemap).
 export async function sectionXml(section: string, site: URL) {
-  const base = site.href.replace(/\/$/, '');
+  const base = site.href.replace(/\/$/, '') + import.meta.env.BASE_URL.replace(/\/$/, '');
   const list = (await entries()).filter((e) => e.section === section);
   const urls = list.flatMap((e) => e.langs.map((l) => {
     const alts = e.langs.length > 1

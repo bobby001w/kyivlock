@@ -4,6 +4,12 @@
 // < 3 вхідних посилань, мало тексту на геосторінках.
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import config from '../astro.config.mjs';
+
+// Base публікації (/kyivlock): усі внутрішні шляхи в HTML мають його містити; для перевірок він відкидається.
+const BASE = (config.base ?? '/').replace(/\/$/, '');
+const ORIGIN = config.site.replace(/\/$/, '') + BASE;
+const unbase = (u) => (BASE && (u === BASE || u.startsWith(BASE + '/')) ? u.slice(BASE.length) || '/' : u);
 
 const DIST = 'dist';
 const files = [];
@@ -30,12 +36,18 @@ for (const f of files) {
     noindex: /<meta name="robots" content="noindex/.test(html),
     h1: [...html.matchAll(/<h1[^>]*>([\s\S]*?)<\/h1>/g)].map((m) => decode(m[1].replace(/<[^>]+>/g, '').trim())),
     lang: get(/<html lang="([^"]*)"/),
-    alt: Object.fromEntries([...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="https?:\/\/[^/]+(\/[^"]*)"/g)].map((m) => [m[1], m[2]])),
+    alt: Object.fromEntries([...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="https?:\/\/[^/]+(\/[^"]*)"/g)].map((m) => [m[1], unbase(m[2])])),
   };
   pages.set(path, p);
   const main = html.match(/<main[^>]*>([\s\S]*)<\/main>/)?.[1] ?? '';
   p.words = main.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ').split(/\s+/).filter((w) => /[а-яіїєґa-z]/i.test(w)).length;
-  const links = new Set([...html.matchAll(/href="(\/[^"#?]*)/g)].map((m) => m[1]));
+  const raw = [...html.matchAll(/href="(\/[^"#?]*)/g)].map((m) => m[1]);
+  if (BASE) {
+    for (const l of raw) if (!l.startsWith(BASE + '/')) errors.push(`${path}: посилання без base ${l}`);
+    const bare = html.match(new RegExp(`(?:src="|srcset="|, |url\\()\\/(?!\\/|${BASE.slice(1)}\\/)[a-z_]`));
+    if (bare) errors.push(`${path}: ресурс без base ${bare[0]}`);
+  }
+  const links = new Set(raw.map(unbase));
   p.links = links;
   for (const l of links) { if (!inbound.has(l)) inbound.set(l, new Set()); inbound.get(l).add(path); }
   for (const m of html.matchAll(/<img\b[^>]*>/g)) if (!/\balt="[^"]+"/.test(m[0])) errors.push(`${path}: img без alt`);
@@ -57,12 +69,12 @@ dup((p) => p.title, 'title'); dup((p) => p.desc, 'description'); dup((p) => p.h1
 
 const sitemapUrls = new Set();
 for (const f of readdirSync(DIST).filter((f) => /^sitemap-.*\.xml$/.test(f)))
-  for (const m of readFileSync(join(DIST, f), 'utf8').matchAll(/<loc>https?:\/\/[^/]+(\/[^<]*)<\/loc>/g)) sitemapUrls.add(m[1]);
+  for (const m of readFileSync(join(DIST, f), 'utf8').matchAll(/<loc>https?:\/\/[^/]+(\/[^<]*)<\/loc>/g)) sitemapUrls.add(unbase(m[1]));
 
 let geoMin = Infinity, geoMinPath = '';
 for (const p of pages.values()) {
   if (p.h1.length !== 1) errors.push(`${p.path}: H1 = ${p.h1.length}`);
-  if (!p.canonical.endsWith(p.path)) errors.push(`${p.path}: canonical ${p.canonical}`);
+  if (p.canonical !== ORIGIN + p.path) errors.push(`${p.path}: canonical ${p.canonical}`);
   for (const l of p.links) if (!exists(l)) errors.push(`${p.path}: бите посилання ${l}`);
   if (p.noindex) continue;
   if (!sitemapUrls.has(p.path)) errors.push(`${p.path}: немає в sitemap`);

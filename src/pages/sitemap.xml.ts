@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 import { SECTIONS, entries } from '../lib/sitemap';
 
 export const GET: APIRoute = async ({ site }) => {
-  const base = site!.href.replace(/\/$/, '');
+  const base = site!.href.replace(/\/$/, '') + import.meta.env.BASE_URL.replace(/\/$/, '');
   const all = await entries();
   const body = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
