@@ -1,0 +1,8 @@
+---
+// Російська версія: getStaticPaths дає лише слаги, а об'єкт береться під час рендеру — вже в контексті /ru/ (дані російською).
+import ComboPage from '../../../../components/ComboPage.astro';
+import { ignitionCombos, place } from '../../../../lib/site';
+export const getStaticPaths = () => ignitionCombos.filter((p) => p.kind !== 'district').map((p) => ({ params: { slug: p.slug } }));
+const p = place(Astro.params.slug!)!;
+---
+<ComboPage p={p} kind="ign" />

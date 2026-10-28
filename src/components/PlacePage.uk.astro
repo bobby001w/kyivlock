@@ -1,0 +1,154 @@
+---
+// Шаблон геосторінки (район / мікрорайон / передмістя / місто / район області / групова сторінка).
+// Унікальність: факти локації з даних (житло, вулиці, метро, орієнтири, проблеми, час) + блоки батьківського
+// району + варіативні абзаци (vary за slug). Порядок блоків — за п. 3.5 ТЗ.
+import Base from '../layouts/Base.astro';
+import Hero from './Hero.astro';
+import Blocks from './Blocks.astro';
+import W from './Widgets.astro';
+import LeadForm from './LeadForm.astro';
+import Icon from './Icon.astro';
+import type { Place } from '../data/kyiv';
+import { DISTRICTS } from '../data/kyiv';
+import { LOCAL, TIPS } from '../data/local';
+import { SERVICES, IGN } from '../data/services';
+import { price, fmt, PRICE_FROM } from '../data/prices';
+import { placeTitle, placeDesc, vary } from '../lib/seo';
+import { faqPage, service as svcSchema } from '../lib/schema';
+import { place, placeUrl, neighbors, children, comboUrl, IGN_COMBO, DOOR_COMBO, KYIV_PLACES } from '../lib/site';
+
+interface Props { p: Place }
+const { p } = Astro.props;
+const isKyiv = p.kind === 'district' || p.kind === 'micro';
+const parent = p.parent ? place(p.parent) : undefined;
+const url = placeUrl(p);
+const kids = children(p);
+const near = neighbors(p);
+const microLinks = (p.micros ?? []).map((m) => ({ ...m, href: m.slug && place(m.slug) ? placeUrl(place(m.slug)!) : undefined }));
+const hasIgn = !!p.ignition;
+const hasDoor = !!p.doors && p.kind === 'district';
+
+const h1 = {
+  district: `Аварійне відкриття замків ${p.loc}`,
+  micro: `Відкриття дверей і замків ${p.loc}`,
+  suburb: `Аварійне відкриття замків ${p.loc}`,
+  city: `Відкриття замків ${p.loc}`,
+  raion: `Відкриття замків ${p.loc} Київської області`,
+  group: `Відкриття замків ${p.loc}`,
+}[p.kind];
+const crumbs = isKyiv
+  ? [{ name: 'Райони Києва', href: '/kyiv/' }, ...(parent ? [{ name: parent.name, href: placeUrl(parent) }] : []), { name: p.name, href: url }]
+  : [{ name: 'Київська область', href: '/kyivska-oblast/' }, ...(parent ? [{ name: parent.name, href: placeUrl(parent) }] : []), { name: p.name, href: url }];
+
+const lead = `${p.intro} Виїзд ${p.loc} — <strong>${p.eta}</strong>, цілодобово.`;
+
+// Варіативні абзаци — різні формулювання на різних сторінках
+const svcIntro = vary(p.slug, [
+  `${p.loc[0].toUpperCase() + p.loc.slice(1)} ми виконуємо повний спектр робіт із замками: від термінового відкриття дверей до виготовлення ключа запалювання з чіпом.`,
+  `Майстри KyivLock, які працюють ${p.loc}, возять із собою інструмент для неруйнівного відкриття, запас популярних личинок і заготовок ключів.`,
+  `Нижче — послуги, які найчастіше замовляють ${p.loc}. Ціни вказані орієнтовно; остаточну вартість майстер назве на місці до початку робіт.`,
+]);
+const issueTail = vary(p.slug + 'i', [
+  'Найважливіше в таких ситуаціях — не намагатися відкрити замок силою: зламаний ключ чи вибиті двері обходяться значно дорожче за виклик майстра.',
+  'Майже всі такі випадки вирішуються без пошкоджень — за умови, що до приїзду майстра замок не намагалися «розкрутити» викруткою чи плоскогубцями.',
+  'Порада від наших майстрів: раз на рік змащуйте циліндр спеціальним мастилом і не користуйтеся погнутим ключем — це попереджає більшість аварійних викликів.',
+]);
+const Loc = p.loc[0].toUpperCase() + p.loc.slice(1);
+const nearNames = near.map((n) => n.name).slice(0, 3).join(', ');
+
+// Короткий опис роботи замість спільного блоку «4 кроки» — формулювання різні, підставлені факти локації.
+const how = vary(p.slug + 'h', [
+  `${Loc} схема проста: ви телефонуєте й описуєте двері чи авто, диспетчер одразу називає орієнтовну ціну, а майстер виїжджає з найближчої точки — зазвичай це ${p.eta}. На місці він перевіряє документи, називає фіксовану ціну і лише тоді береться до роботи.`,
+  `Коли нам телефонують ${p.loc}, ми передаємо заявку майстру, який зараз найближче${nearNames ? ` — часто він щойно завершив виклик у сусідніх локаціях (${nearNames})` : ''}. Ціну ви чуєте ще по телефону, остаточну — після огляду замка, до початку робіт.`,
+  `Наш підхід ${p.loc} нічим не відрізняється від центру Києва: чесний час приїзду (${p.eta}), перевірка права на житло чи авто, фіксована вартість до початку робіт. Різниця лише в маршруті майстра${p.streets[0] ? ` — найчастіше він заїжджає через ${p.streets[0]}` : ''}.`,
+]);
+// Абзац «як доїжджаємо» — збирається з даних (дороги, відстань, метро, батьківський район)
+const route = p.kind === 'micro'
+  ? `${p.name} входить до складу ${parent ? parent.name.replace(/ий район$/, 'ого району') : 'міста'}${p.metro?.length ? `; поруч метро ${p.metro.join(', ')}` : ''}. Майстри добре знають місцеві двори${p.streets.length > 1 ? ` — ${p.streets.slice(0, 4).join(', ')}` : ''}, тож не витрачають час на пошук під'їзду.`
+  : p.kind === 'district'
+    ? `${p.name} включає ${p.micros?.length ?? 0} житлових масивів і місцевостей${p.metro?.length ? `, тут ${p.metro.length} станцій метро (${p.metro.slice(0, 4).join(', ')})` : ''}. Ми розподіляємо виклики між майстрами так, щоб до будь-якої точки району доїжджати за ${p.eta}.`
+    : `${p.distance ? `${p.name} — ${p.distance}. ` : ''}Майстер їде ${p.streets.length ? `через ${p.streets.slice(0, 2).join(' і ')}` : 'найкоротшим маршрутом'}; реальний час — ${p.eta}${p.surcharge ? `, ${p.surcharge}` : ''}.`;
+
+const faq = [
+  ...(p.faq ?? []),
+  { q: `Як швидко приїде майстер ${p.loc}?`, a: `${vary(p.slug + 'f', ['Орієнтовно', 'Зазвичай', 'У середньому'])} ${p.eta}. ${p.distance ? `Відстань — ${p.distance}. ` : ''}Точний час диспетчер назве з урахуванням трафіку.` },
+  { q: `Скільки коштує відкрити двері ${p.loc}?`, a: `Простий циліндр — ${fmt(price('door-simple'))}, броньовані двері — ${fmt(price('door-armored'))}.${p.surcharge ? ` Виїзд: ${p.surcharge}.` : ` Виклик майстра по Києву — ${fmt(price('call-kyiv'))}.`}` },
+];
+const schema = [faqPage(faq), svcSchema({ name: `Аварійне відкриття замків — ${p.name}`, type: 'Аварійне відкриття замків', path: url, description: p.intro, area: p.name, priceIds: ['door-simple', 'door-armored', 'car-open', 'safe-open', 'cyl-replace', 'ign-repair'] })];
+const otherDistricts = DISTRICTS.filter((d) => d.slug !== p.slug && !near.includes(d));
+const mainSvcs = SERVICES.slice(0, 6);
+---
+<Base title={placeTitle(p)} description={placeDesc(p)} path={url} crumbs={crumbs} schema={schema}>
+  <Hero h1={h1} lead={lead} place={isKyiv ? (p.kind === 'micro' ? p.parent : p.slug) : p.slug} badges={['Цілодобово, 24/7', `Виїзд ${p.eta}`, 'Без пошкоджень', `Від ${PRICE_FROM} грн`]} />
+
+  <section class="section soft"><div class="wrap prose">
+    <h2>Як ми працюємо {p.loc}</h2>
+    <p>{how}</p>
+    <p>{route}</p>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <h2>Послуги {p.loc} і ціни</h2>
+    <p>{svcIntro}</p>
+    <div class="grid g3">
+      {mainSvcs.map((s) => (
+        <a class="card" href={hasDoor && s.slug === 'vidkryttia-dverey' ? comboUrl(p, DOOR_COMBO) : s.path}>
+          <Icon name={s.icon} /><h3>{s.short}</h3>
+        </a>
+      ))}
+      <a class="card" href={hasIgn ? comboUrl(p, IGN_COMBO) : IGN}><Icon name="ignition" /><h3>Ключі та замок запалювання</h3></a>
+    </div>
+    <div style="margin-top:20px"><W type="prices" ids={isKyiv ? ['door-simple', 'door-armored', 'car-open', 'cyl-replace'] : ['call-oblast', 'door-simple', 'car-open', 'ign-repair']} caption={`Орієнтовні ціни ${p.loc}`} /></div>
+  </div></section>
+
+  <section class="section soft"><div class="wrap prose">
+    <h2>Особливості забудови та замків {p.loc}</h2>
+    <p>{p.housing}</p>
+    {p.doors && <p>{p.doors}</p>}
+    <h2>Типові звернення {p.loc}</h2>
+    <p>{p.issues} {issueTail}</p>
+    {LOCAL[p.slug] && <><h3>Що варто знати</h3><p>{LOCAL[p.slug]}</p></>}
+    {TIPS[p.slug] && <><h3>Порада перед викликом</h3><p>{TIPS[p.slug]}</p></>}
+    <h2>Ключі запалювання та замки авто {p.loc}</h2>
+    {p.ignition ? <p>{p.ignition}</p> : vary(p.slug + 'g', [
+      <p>Окрім дверей, ми допомагаємо водіям {p.loc}: <a href={IGN + 'kliuch-ne-povertaietsia/'}>ключ не повертається в замку запалювання</a>, <a href={IGN + 'zlamanyi-kliuch/'}>зламався ключ</a>, потрібен <a href={IGN + 'kliuch-z-chipom-imobilayzer/'}>ключ з чіпом</a>. Більшість робіт — на місці, де стоїть авто.</p>,
+      <p>Якщо проблема не з дверима, а з машиною, — майстер приїде і до авто: <a href={IGN + 'remont-zamka-zapaliuvannia/'}>відремонтує замок запалювання</a>, <a href={IGN + 'vyhotovlennia-kliucha/'}>виготовить запасний ключ</a> або <a href={IGN + 'smart-kliuch/'}>розбереться зі смарт-ключем</a>.</p>,
+      <p>Водіям {p.loc} ми найчастіше допомагаємо з трьома речами: <a href={IGN + 'zlamanyi-kliuch/'}>уламок ключа в замку</a>, <a href={IGN + 'vtracheni-vsi-kliuchi/'}>загублені всі ключі</a> та <a href={IGN + 'kliuch-z-chipom-imobilayzer/'}>авто не бачить чип</a>. Евакуатор зазвичай не потрібен.</p>,
+    ])}
+    <p>{hasIgn ? <a href={comboUrl(p, IGN_COMBO)}>Ремонт замка запалювання {p.loc} — детальніше</a> : <a href={IGN}>Усі послуги з ключами запалювання</a>}</p>
+  </div></section>
+
+  <section class="section"><div class="wrap">
+    <h2>{p.kind === 'raion' ? 'Міста і села району, які ми обслуговуємо' : p.kind === 'group' ? 'Села, які ми обслуговуємо' : `Вулиці, орієнтири та мікрорайони ${p.loc}`}</h2>
+    {microLinks.length > 0 && (
+      <ul class="cols c3">{microLinks.map((m) => <li>{m.href ? <a href={m.href}><b>{m.name}</b></a> : <b>{m.name}</b>} — {m.note}</li>)}</ul>
+    )}
+    {kids.length > 0 && <W type="links" links={kids.filter((k) => !microLinks.some((m) => m.slug === k.slug)).map((k) => ({ href: placeUrl(k), name: k.name }))} />}
+    {p.metro && p.metro.length > 0 && <p><strong>Метро поруч:</strong> {p.metro.join(', ')}.</p>}
+    <p><strong>{p.kind === 'raion' || p.kind === 'group' ? 'Основні дороги' : 'Вулиці, де ми часто працюємо'}:</strong> {p.streets.join(', ')}.</p>
+    <p><strong>Орієнтири:</strong> {p.landmarks.join(', ')}.</p>
+    <p class="note" style="margin-top:16px">{vary(p.slug + 'o', [
+      `Ми відкриваємо двері ${p.loc} лише власникам і мешканцям: перевіряємо паспорт з реєстрацією або договір оренди, для авто — техпаспорт.`,
+      `Безпека важливіша за швидкість: без документа, що підтверджує ваше право на житло чи авто, майстер не відкриває замок — навіть ${p.loc}.`,
+      `Документи перевіряємо завжди. Якщо вони залишились усередині — відкриваємо і звіряємо одразу після відкриття, у присутності сусідів.`,
+    ])} <a href="/pro-nas/">Наші принципи</a>.</p>
+  </div></section>
+
+  <section class="section soft"><div class="wrap">
+    <h2>Відгуки клієнтів {p.loc}</h2>
+    <W type="reviews" place={p.slug} />
+  </div></section>
+
+  <section class="section"><div class="wrap two">
+    <div><h2>Питання і відповіді: {p.short}</h2><W type="faq" items={faq} /></div>
+    <div><LeadForm place={p.slug} uid="bottom" title={`Виклик майстра ${p.loc}`} /></div>
+  </div></section>
+
+  <section class="section soft"><div class="wrap">
+    <h2>{isKyiv ? 'Сусідні райони та масиви' : 'Поруч також обслуговуємо'}</h2>
+    <W type="links" links={[...(parent ? [{ href: placeUrl(parent), name: parent.name }] : []), ...near.map((n) => ({ href: placeUrl(n), name: `Відкриття замків ${n.loc}` }))]} />
+    {hasDoor && <p><a href={comboUrl(p, DOOR_COMBO)}>Відкриття дверей {p.loc}</a></p>}
+    {isKyiv && <><h2 style="margin-top:24px">Інші райони Києва</h2>
+    <W type="links" links={otherDistricts.map((d) => ({ href: placeUrl(d), name: d.name }))} /></>}
+  </div></section>
+</Base>

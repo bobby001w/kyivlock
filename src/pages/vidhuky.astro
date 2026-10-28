@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import W from '../components/Widgets.astro';
+import { BUSINESS } from '../data/business';
+import { REVIEWS } from '../data/reviews';
+import { review } from '../lib/schema';
+---
+<Base title="Відгуки клієнтів KyivLock — відкриття замків у Києві" description="Реальні відгуки клієнтів KyivLock про відкриття дверей, авто, заміну замків і ремонт замків запалювання в Києві. Читайте на Google та залиште свій відгук." path="/vidhuky/" crumbs={[{ name: 'Відгуки', href: '/vidhuky/' }]} schema={REVIEWS.map((r) => ({ '@context': 'https://schema.org', ...review(r) }))}>
+  <Hero h1="Відгуки клієнтів KyivLock" lead="Ми публікуємо лише справжні відгуки — з Google Business Profile та від клієнтів, які погодилися на публікацію. Жодних вигаданих оцінок." />
+  <section class="section"><div class="wrap">
+    <W type="reviews" />
+    {BUSINESS.googleBusinessUrl && <div class="ctas"><a class="btn btn-line" href={BUSINESS.googleBusinessUrl} rel="noopener">Усі відгуки на Google</a><a class="btn btn-call" href={BUSINESS.googleReviewUrl} rel="noopener">Залишити відгук</a></div>}
+    <p class="muted">Відгук стосується роботи нашого майстра? Ми відповідаємо на кожен — і на позитивні, і на критичні — та виправляємо помилки.</p>
+  </div></section>
+</Base>

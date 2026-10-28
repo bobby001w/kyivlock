@@ -1,0 +1,81 @@
+---
+// Віджети: таблиця цін, FAQ, відгуки, час приїзду, сітка посилань, зображення.
+import { PRICE_GROUPS, fmt, pricesUpdatedHuman, PRICES_UPDATED, price } from '../data/prices';
+import { REVIEWS } from '../data/reviews';
+import { BUSINESS, filled } from '../data/business';
+import { ALL_PLACES } from '../lib/site';
+import type { QA } from '../data/services';
+import { t } from '../i18n/ctx';
+
+interface Props {
+  type: 'prices' | 'faq' | 'reviews' | 'eta' | 'links' | 'img';
+  ids?: string[]; groups?: string[]; title?: string; caption?: string;
+  items?: QA[]; place?: string; service?: string;
+  links?: { href: string; name: string }[]; id?: string;
+  file?: string; alt?: string; eager?: boolean; w?: number; h?: number; sizes?: string;
+}
+const p = Astro.props;
+const groups = p.groups ? PRICE_GROUPS.filter((g) => p.groups!.includes(g.id)) : [];
+const rows = p.ids ? p.ids.map(price) : [];
+const reviews = REVIEWS.filter((r) => (!p.place || r.place === p.place) && (!p.service || r.service === p.service)).slice(0, 6);
+const etaPlaces = ALL_PLACES.filter((x) => x.kind !== 'group' && x.kind !== 'raion').sort((a, b) => a.name.localeCompare(b.name, t('uk', 'ru')));
+const W = [480, 800, 1200];
+---
+{p.type === 'prices' && (
+  <div>
+    {groups.map((g) => (
+      <div class="tbl" style="margin-bottom:16px"><table>
+        <caption>{g.title}</caption>
+        <thead><tr><th scope="col">{t('Послуга', 'Услуга')}</th><th scope="col">{t('Ціна', 'Цена')}</th></tr></thead>
+        <tbody>{g.rows.map((r) => <tr><td>{r.name}{r.note && <div class="muted">{r.note}</div>}</td><td class="p">{fmt(r)}</td></tr>)}</tbody>
+      </table></div>
+    ))}
+    {rows.length > 0 && (
+      <div class="tbl"><table>
+        {p.caption && <caption>{p.caption}</caption>}
+        <thead><tr><th scope="col">{t('Послуга', 'Услуга')}</th><th scope="col">{t('Ціна', 'Цена')}</th></tr></thead>
+        <tbody>{rows.map((r) => <tr><td>{r.name}{r.note && <div class="muted">{r.note}</div>}</td><td class="p">{fmt(r)}</td></tr>)}</tbody>
+      </table></div>
+    )}
+    <p class="muted">{t('Ціни орієнтовні, точна вартість — після огляду, до початку робіт. Актуалізовано:', 'Цены ориентировочные, точная стоимость — после осмотра, до начала работ. Обновлено:')} <time datetime={PRICES_UPDATED}>{pricesUpdatedHuman()}</time>. {t('Вночі, у вихідні та свята — без доплат.', 'Ночью, в выходные и праздники — без доплат.')}</p>
+  </div>
+)}
+{p.type === 'faq' && p.items && (
+  <div class="faq">
+    {p.items.map((i) => <details><summary>{i.q}</summary><div class="a" set:html={i.a} /></details>)}
+  </div>
+)}
+{p.type === 'reviews' && (
+  reviews.length > 0 ? (
+    <div class="grid g3">{reviews.map((r) => (
+      <figure class="rev"><div class="stars" aria-label={t(`Оцінка ${r.rating} з 5`, `Оценка ${r.rating} из 5`)}>{'★'.repeat(r.rating)}</div>
+        <blockquote>{r.text}</blockquote><figcaption><b>{r.author}</b> · <time datetime={r.date}>{new Date(r.date).toLocaleDateString(t('uk-UA', 'ru-UA'))}</time>{r.source === 'google' && ' · Google'}</figcaption></figure>
+    ))}</div>
+  ) : (
+    <div class="card">
+      <p>{t('Тут з\'являться реальні відгуки клієнтів', 'Здесь появятся реальные отзывы клиентов')}{p.place ? t(' з цього району', ' из этого района') : ''}. {t('Ми публікуємо лише справжні відгуки з Google та від клієнтів, які погодилися на публікацію.', 'Мы публикуем только настоящие отзывы из Google и от клиентов, которые согласились на публикацию.')}</p>
+      {(BUSINESS.googleBusinessUrl || BUSINESS.googleReviewUrl) && <div class="ctas">
+        {BUSINESS.googleBusinessUrl && <a class="btn btn-line" href={BUSINESS.googleBusinessUrl} rel="noopener">{t('Відгуки на Google', 'Отзывы в Google')}</a>}
+        {BUSINESS.googleReviewUrl && <a class="btn btn-call" href={BUSINESS.googleReviewUrl} rel="noopener">{t('Залишити відгук', 'Оставить отзыв')}</a>}
+      </div>}
+    </div>
+  )
+)}
+{p.type === 'eta' && (
+  <form class="eta" id="eta">
+    <label for="eta-sel"><b>{t('Орієнтовний час приїзду', 'Ориентировочное время приезда')}</b></label>
+    <select id="eta-sel"><option value="">{t('Оберіть район або місто', 'Выберите район или город')}</option>{etaPlaces.map((x) => <option value={x.eta} selected={x.slug === p.place}>{x.name}</option>)}</select>
+    <output aria-live="polite"></output>
+    <p class="muted">{t('Час залежить від трафіку та завантаженості майстрів; точний — назве диспетчер.', 'Время зависит от трафика и загруженности мастеров; точное — назовёт диспетчер.')}</p>
+  </form>
+)}
+{p.type === 'links' && p.links && p.links.length > 0 && (
+  <ul class="chips">{p.links.map((l) => <li><a href={l.href}>{l.name}</a></li>)}</ul>
+)}
+{p.type === 'img' && p.file && (
+  <picture>
+    <source type="image/avif" srcset={W.map((w) => `/images/${p.file}-${w}.avif ${w}w`).join(', ')} sizes={p.sizes ?? '(min-width: 960px) 560px, 100vw'} />
+    <source type="image/webp" srcset={W.map((w) => `/images/${p.file}-${w}.webp ${w}w`).join(', ')} sizes={p.sizes ?? '(min-width: 960px) 560px, 100vw'} />
+    <img src={`/images/${p.file}-800.webp`} alt={p.alt} width={p.w ?? 1200} height={p.h ?? 750} loading={p.eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={p.eager ? 'high' : 'auto'} class="media" />
+  </picture>
+)}

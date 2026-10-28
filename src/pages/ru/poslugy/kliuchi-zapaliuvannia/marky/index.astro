@@ -1,0 +1,16 @@
+---
+import Base from '../../../../../layouts/Base.astro';
+import Hero from '../../../../../components/Hero.astro';
+import { IGN } from '../../../../../data/services';
+import { BRANDS } from '../../../../../data/brands';
+import { brandUrl } from '../../../../../lib/site';
+const path = IGN + 'marky/';
+---
+<Base title="Ключи зажигания по маркам авто — Киев | KyivLock" description="Ремонт замков зажигания и изготовление ключей для Toyota, VW, Skoda, Ford, BMW, Mercedes, Hyundai, Kia и др. Типичные проблемы и цены. Звоните {PHONE}." path={path} crumbs={[{ name: 'Услуги', href: '/poslugy/' }, { name: 'Ключи зажигания', href: IGN }, { name: 'Марки авто', href: path }]}>
+  <Hero h1="Ключи зажигания и замки по маркам авто" lead="У каждой марки — свои типичные «болезни» замков зажигания, свои типы ключей и особенности иммобилайзеров. Выберите марку, чтобы узнать, что мы делаем, сколько это длится и стоит." variant="ignition" />
+  <section class="section"><div class="wrap">
+    <h2>Выберите марку</h2>
+    <div class="grid g4">{BRANDS.map((b) => <a class="card" href={brandUrl(b.slug)}><h3>{b.name}</h3><p class="muted">{b.models.split(', ').slice(0, 4).join(', ')}</p></a>)}</div>
+    <p class="muted" style="margin-top:16px">Не нашли свою марку? Мы работаем с большинством авто, представленных в Украине, — позвоните, и мы подскажем, сможем ли помочь. Все услуги — на странице <a href={IGN}>«Ключи зажигания»</a>.</p>
+  </div></section>
+</Base>

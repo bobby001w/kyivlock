@@ -1,0 +1,8 @@
+---
+// Російська версія: getStaticPaths дає лише слаги, а об'єкт береться під час рендеру — вже в контексті /ru/ (дані російською).
+import PlacePage from '../../../../components/PlacePage.astro';
+import { KYIV_PLACES, place } from '../../../../lib/site';
+export const getStaticPaths = () => KYIV_PLACES.map((p) => ({ params: { slug: p.slug } }));
+const p = place(Astro.params.slug!)!;
+---
+<PlacePage p={p} />

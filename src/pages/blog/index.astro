@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog')).sort((a, b) => b.data.updated.localeCompare(a.data.updated));
+const groups = [
+  { id: 'general', title: 'Двері, замки та безпека' },
+  { id: 'doors', title: 'Що робити в аварійній ситуації' },
+  { id: 'ignition', title: 'Ключі та замки запалювання' },
+] as const;
+---
+<Base title="Блог KyivLock — поради майстрів про замки і ключі" description="Практичні поради від майстрів KyivLock: що робити, якщо захлопнулися двері, як обрати замок, ціни у Києві, ключі запалювання, як не потрапити на шахраїв." path="/blog/" crumbs={[{ name: 'Блог', href: '/blog/' }]}>
+  <section class="section"><div class="wrap">
+    <h1>Корисне: поради майстрів KyivLock</h1>
+    <p class="lead">Пишемо з досвіду щоденних виїздів: як діяти в аварійній ситуації, як обрати замок і як не переплатити.</p>
+    {groups.map((g) => {
+      const list = posts.filter((p) => p.data.cluster === g.id);
+      return list.length > 0 && (
+        <>
+          <h2>{g.title}</h2>
+          <div class="grid g3" style="margin-bottom:32px">{list.map((p) => <a class="card" href={`/blog/${p.id}/`}><h3>{p.data.title}</h3><p class="muted">{p.data.description}</p></a>)}</div>
+        </>
+      );
+    })}
+  </div></section>
+</Base>

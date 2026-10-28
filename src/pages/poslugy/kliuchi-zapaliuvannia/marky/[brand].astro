@@ -1,0 +1,60 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Hero from '../../../../components/Hero.astro';
+import Blocks from '../../../../components/Blocks.astro';
+import W from '../../../../components/Widgets.astro';
+import LeadForm from '../../../../components/LeadForm.astro';
+import { IGN } from '../../../../data/services';
+import { BRANDS } from '../../../../data/brands';
+import { IGN_PAGES } from '../../../../data/ignition';
+import { service, faqPage } from '../../../../lib/schema';
+import { brandUrl, pickTitle, pickDesc } from '../../../../lib/brand-seo';
+export const getStaticPaths = () => BRANDS.map((b) => ({ params: { brand: b.slug }, props: { b } }));
+const { b } = Astro.props;
+const path = brandUrl(b.slug);
+const idx = BRANDS.findIndex((x) => x.slug === b.slug);
+const others = [1, 2, 3, 4, 5].map((k) => BRANDS[(idx + k) % BRANDS.length]);
+const title = pickTitle([
+  `Ключі та замок запалювання ${b.name} — Київ | KyivLock`,
+  `Ключ запалювання ${b.name} Київ — ремонт замка | KyivLock`,
+  `Замок запалювання ${b.name}: ремонт і ключі | KyivLock`,
+  `Ключі запалювання ${b.name} | KyivLock`,
+]);
+const description = pickDesc([
+  `Ремонт замка запалювання та ключі для ${b.loc} у Києві: ${b.keys.split(',')[0]}; ${b.models.split(', ').slice(0, 3).join(', ')}. Ціни, терміни. Тел. {PHONE}.`,
+  `Ремонт замка запалювання та ключі для ${b.loc} у Києві: ${b.keys.split(',')[0]}. Типові проблеми, терміни, ціни. Тел. {PHONE}.`,
+  `Ключі для ${b.loc}: ремонт замка запалювання, ключі з чіпом, смарт-ключі. Київ і область. Тел. {PHONE}.`,
+  `Ключі для ${b.loc} у Києві. Тел. {PHONE}.`,
+]);
+const schema = [service({ name: `Ключі та замок запалювання ${b.name}`, type: 'Ремонт замка запалювання', path, description: b.intro, priceIds: ['ign-repair', 'ign-cyl', 'ign-key-chip', 'ign-key-smart', 'ign-all-lost'] }), faqPage(b.faq)];
+---
+<Base title={title} description={description} path={path} schema={schema} crumbs={[{ name: 'Послуги', href: '/poslugy/' }, { name: 'Ключі запалювання', href: IGN }, { name: 'Марки авто', href: IGN + 'marky/' }, { name: b.name, href: path }]}>
+  <Hero h1={`Ключі та замок запалювання ${b.name} у Києві`} lead={b.intro} variant="ignition" />
+  <section class="section"><div class="wrap prose">
+    <h2>Моделі, з якими працюємо найчастіше</h2>
+    <p>{b.models}.</p>
+    <h2>Типи ключів {b.loc}</h2>
+    <p>Для {b.loc} зустрічаються: {b.keys}. Від типу ключа залежить спосіб виготовлення, програмування і вартість — тому під час дзвінка ми уточнюємо модель, рік і за потреби VIN.</p>
+    <h2>Типові проблеми замка запалювання та ключів {b.loc}</h2>
+    <ul>{b.problems.map((x) => <li>{x}</li>)}</ul>
+    <h2>Як ми вирішуємо</h2>
+    <p>{b.details}</p>
+    <h2>Орієнтовні терміни</h2>
+    <p>{b.timing} Точний час залежить від стану замка, типу ключа та того, чи є у вас робочий ключ.</p>
+    <h2>Послуги для {b.loc}</h2>
+    <ul class="cols">{IGN_PAGES.map((s) => <li><a href={s.path}>{s.name}</a></li>)}</ul>
+  </div></section>
+  <section class="section soft"><div class="wrap">
+    <h2>Орієнтовні ціни для {b.loc}</h2>
+    <W type="prices" ids={['ign-diag', 'ign-repair', 'ign-cyl', 'ign-broken', 'ign-key-mech', 'ign-key-chip', 'ign-key-flip', 'ign-key-smart', 'ign-all-lost']} />
+  </div></section>
+  <Blocks type="ownership-car" seed={b.slug} />
+  <section class="section"><div class="wrap two">
+    <div><h2>Питання про ключі {b.loc}</h2><W type="faq" items={b.faq} /></div>
+    <div><LeadForm variant="ignition" uid="bottom" title={`${b.name}: ремонт замка і ключі`} /></div>
+  </div></section>
+  <section class="section soft"><div class="wrap">
+    <h2>Інші марки</h2>
+    <W type="links" links={[...others.map((o) => ({ href: brandUrl(o.slug), name: `Ключі запалювання ${o.name}` })), { href: IGN + 'marky/', name: 'Усі марки' }]} />
+  </div></section>
+</Base>

@@ -1,0 +1,50 @@
+---
+import Logo from './Logo.astro';
+import { BUSINESS, links, OWNER } from '../data/business';
+import { SERVICES, IGN } from '../data/services';
+import { DISTRICTS } from '../data/kyiv';
+import { TOP_CITIES, placeUrl } from '../lib/site';
+import { t } from '../i18n/ctx';
+const year = new Date().getFullYear();
+const messengers = [
+  { name: 'Telegram', ch: 'telegram', href: links.telegram, on: BUSINESS.telegram },
+  { name: 'Viber', ch: 'viber', href: links.viber, on: BUSINESS.viber },
+  { name: 'WhatsApp', ch: 'whatsapp', href: links.whatsapp, on: BUSINESS.whatsapp },
+].filter((m) => m.on);
+---
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div itemscope itemtype="https://schema.org/Locksmith">
+        <Logo />
+        <p><span itemprop="name">{BUSINESS.brand}</span>{t(' — аварійне відкриття замків, ремонт замків запалювання та виготовлення ключів у Києві й Київській області.', ' — аварийное вскрытие замков, ремонт замков зажигания и изготовление ключей в Киеве и Киевской области.')}</p>
+        <ul>
+          <li>{t('Телефон', 'Телефон')}: <a itemprop="telephone" href={links.phone} data-ga="phone_click">{BUSINESS.phone}</a></li>
+          <li>E-mail: <a itemprop="email" href={links.email}>{BUSINESS.email}</a></li>
+          {BUSINESS.address && <li>{t('Адреса', 'Адрес')}: <span itemprop="address">{BUSINESS.address}</span></li>}
+          <li>{t('Графік', 'График')}: <span itemprop="openingHours" content={BUSINESS.openingHoursSpec}>{t(BUSINESS.workingHours, 'Круглосуточно, 24/7')}</span></li>
+          {messengers.length > 0 && <li>{messengers.map((m, i) => <>{i > 0 && ' · '}<a href={m.href} data-ga="messenger_click" data-ch={m.ch} rel="noopener">{m.name}</a></>)}</li>}
+          {BUSINESS.googleBusinessUrl && <li><a href={BUSINESS.googleBusinessUrl} rel="noopener">{t('Ми на Google Картах', 'Мы на Google Картах')}</a></li>}
+        </ul>
+      </div>
+      <div><h2>{t('Послуги', 'Услуги')}</h2><ul>
+        {SERVICES.map((s) => <li><a href={s.path}>{s.short}</a></li>)}
+        <li><a href={IGN}>{t('Ключі та замок запалювання', 'Ключи и замок зажигания')}</a></li>
+        <li><a href={IGN + 'marky/'}>{t('Ключі за марками авто', 'Ключи по маркам авто')}</a></li>
+      </ul></div>
+      <div><h2>{t('Райони Києва', 'Районы Киева')}</h2><ul>
+        {DISTRICTS.map((d) => <li><a href={placeUrl(d)}>{d.name}</a></li>)}
+      </ul></div>
+      <div><h2>{t('Київська область', 'Киевская область')}</h2><ul>
+        {TOP_CITIES.map((c) => <li><a href={placeUrl(c)}>{c.name}</a></li>)}
+        <li><a href="/kyivska-oblast/">{t('Усі міста й села', 'Все города и сёла')}</a></li>
+      </ul></div>
+    </div>
+    <div class="ftr-legal">
+      <span>© {year} {BUSINESS.brand}{OWNER !== BUSINESS.brand && `. ${OWNER}`}</span>
+      <a href="/tsiny/">{t('Ціни', 'Цены')}</a><a href="/pro-nas/">{t('Про нас', 'О нас')}</a><a href="/vidhuky/">{t('Відгуки', 'Отзывы')}</a><a href="/blog/">Блог</a><a href="/faq/">FAQ</a><a href="/kontakty/">{t('Контакти', 'Контакты')}</a>
+      <a href="/oplata-i-vyizd/">{t('Оплата і виїзд', 'Оплата и выезд')}</a><a href="/harantiia/">{t('Гарантія та повернення', 'Гарантия и возврат')}</a><a href="/publichna-oferta/">{t('Публічна оферта', 'Публичная оферта')}</a>
+      <a href="/polityka-konfidentsiinosti/">{t('Політика конфіденційності та cookie', 'Политика конфиденциальности и cookie')}</a><a href="/umovy-vykorystannia/">{t('Умови використання', 'Условия использования')}</a>
+    </div>
+  </div>
+</footer>

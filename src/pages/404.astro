@@ -1,0 +1,21 @@
+---
+// Власна 404 з навігацією і кнопкою дзвінка. Cloudflare Pages/nginx віддають її з кодом 404.
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import W from '../components/Widgets.astro';
+import { SERVICES, IGN } from '../data/services';
+import { DISTRICTS } from '../data/kyiv';
+import { placeUrl } from '../lib/site';
+---
+<Base title="Сторінку не знайдено (404) | KyivLock" description="Сторінку не знайдено. Перейдіть до послуг, районів або зателефонуйте — ми на зв'язку цілодобово." path="/404/" noindex>
+  <section class="section"><div class="wrap prose">
+    <h1>Сторінку не знайдено</h1>
+    <p class="lead">Можливо, сторінку перенесли або в адресі помилка. Якщо вам терміново потрібен майстер — подзвоніть, ми на зв'язку 24/7.</p>
+    <Cta />
+    <h2>Послуги</h2>
+    <W type="links" links={[...SERVICES.map((s) => ({ href: s.path, name: s.short })), { href: IGN, name: 'Ключі запалювання' }]} />
+    <h2>Райони Києва</h2>
+    <W type="links" links={DISTRICTS.map((d) => ({ href: placeUrl(d), name: d.name }))} />
+    <p><a href="/">Головна</a> · <a href="/tsiny/">Ціни</a> · <a href="/kontakty/">Контакти</a></p>
+  </div></section>
+</Base>
