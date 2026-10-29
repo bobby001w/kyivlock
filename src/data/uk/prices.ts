@@ -2,8 +2,8 @@
 // Таблиці на /tsiny/, сторінках послуг і JSON-LD (offers) беруть дані звідси.
 // Рівень цін вирівняно за київськими конкурентами (keysos, openme, key.kiev.ua, smartkey) — жовтень 2026.
 
-export const PRICES_UPDATED = '2026-10-27';
-export const PRICES_UPDATED_HUMAN = '27 жовтня 2026';
+export const PRICES_UPDATED = '2026-10-29';
+export const PRICES_UPDATED_HUMAN = '29 жовтня 2026';
 
 export interface PriceRow { id: string; name: string; from: number; to?: number; unit?: string; note?: string; label?: string }
 export interface PriceGroup { id: string; title: string; service?: string; rows: PriceRow[] }
@@ -56,7 +56,6 @@ export const PRICE_GROUPS: PriceGroup[] = [
       { id: 'lock-install', name: 'Врізання / встановлення нового замка', from: 900, to: 2000 },
       { id: 'lock-recode', name: 'Перекодування сувальдного замка', from: 600, to: 1000 },
       { id: 'lock-smart', name: 'Встановлення електронного / смарт-замка', from: 1200, to: 2500 },
-      { id: 'key-copy', name: 'Виготовлення копії ключа (квартирний)', from: 100, to: 450 },
     ],
   },
   {

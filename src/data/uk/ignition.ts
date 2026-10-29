@@ -176,7 +176,7 @@ export const IGN_PAGES: Service[] = [
       { q: 'Чи будуть працювати кнопки центрального замка?', a: 'Так, ми програмуємо пульт дистанційного керування разом із чіпом.' },
       { q: 'Скільки часу це займає?', a: 'Від 30 хвилин для копії до кількох годин для ключа з нуля.' },
     ],
-    related: [R('kliuch-z-chipom-imobilayzer'), R('smart-kliuch'), R('vtracheni-vsi-kliuchi'), '/poslugy/vyhotovlennia-kliuchiv/'],
+    related: [R('kliuch-z-chipom-imobilayzer'), R('smart-kliuch'), R('vtracheni-vsi-kliuchi'), R('zapasnyi-kliuch')],
   },
   {
     slug: 'kliuch-z-chipom-imobilayzer', path: R('kliuch-z-chipom-imobilayzer'), name: 'Ключі з чіпом, імобілайзер', short: 'Ключ з чіпом, імобілайзер', icon: 'chip',

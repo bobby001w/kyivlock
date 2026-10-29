@@ -6,6 +6,9 @@
 # Сторінка подяки після форми — форми прибрано, сторінку видалено
 /dyakuiemo/            /                                   301
 /dyakuiemo             /                                   301
+# Послугу «Виготовлення ключів» (квартирні/домофонні) прибрано — робимо лише автомобільні ключі
+/poslugy/vyhotovlennia-kliuchiv/     /poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/     301
+/ru/poslugy/vyhotovlennia-kliuchiv/  /ru/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/  301
 # Приклади (розкоментуйте й адаптуйте під свої старі URL при переїзді зі старого сайту):
 # /uslugi/*              /poslugy/:splat                     301
 # /raiony/*              /kyiv/:splat                        301

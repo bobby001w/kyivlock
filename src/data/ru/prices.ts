@@ -4,7 +4,7 @@ import * as uk from '../uk/prices';
 import type { PriceRow, PriceGroup } from '../uk/prices';
 
 export const PRICES_UPDATED = uk.PRICES_UPDATED;
-export const PRICES_UPDATED_HUMAN = '27 октября 2026';
+export const PRICES_UPDATED_HUMAN = '29 октября 2026';
 
 const GROUP_TITLES: Record<string, string> = {
   common: 'Выезд и общие условия',
@@ -44,7 +44,6 @@ const ROWS: Record<string, Pick<PriceRow, 'name'> & Partial<Pick<PriceRow, 'note
   'lock-install': { name: 'Врезка / установка нового замка' },
   'lock-recode': { name: 'Перекодировка сувальдного замка' },
   'lock-smart': { name: 'Установка электронного / смарт-замка' },
-  'key-copy': { name: 'Изготовление копии ключа (квартирный)' },
 
   'ign-diag': { name: 'Диагностика замка зажигания / иммобилайзера', note: 'бесплатно при заказе ремонта' },
   'ign-repair': { name: 'Ремонт личинки замка зажигания' },
