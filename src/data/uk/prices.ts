@@ -90,4 +90,4 @@ export const fmt = (r: PriceRow) =>
   r.label ? r.label :
   r.from === 0 && !r.to ? 'безкоштовно' :
   r.unit ? `від ${r.from} ${r.unit}` :
-  r.to ? `${r.from}–${r.to} грн` : `від ${r.from} грн`;
+  `від ${r.from} грн`; // лише нижня межа: «від 600 грн»
