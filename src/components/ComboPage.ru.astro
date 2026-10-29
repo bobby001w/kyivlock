@@ -51,7 +51,7 @@ const schema = [
 ];
 ---
 <Base title={ign ? comboIgnTitle(p) : comboDoorTitle(p)} description={ign ? comboIgnDesc(p) : comboDoorDesc(p)} path={url} crumbs={crumbs} schema={schema}>
-  <Hero h1={h1} lead={lead} variant={ign ? 'ignition' : 'default'} place={p.slug} badges={ign ? ['Выезд к авто', `${p.eta}`, 'Гарантия 6 месяцев', 'Проверка документов'] : ['Круглосуточно', `${p.eta}`, 'Без повреждений', 'Цена до начала работ']} />
+  <Hero h1={h1} lead={lead} variant={ign ? 'ignition' : 'default'} place={p.slug} badges={ign ? ['Выезд к авто', `${p.eta}`, 'Гарантия на работы', 'Проверка документов'] : ['Круглосуточно', `${p.eta}`, 'Без повреждений', 'Цена до начала работ']} />
   {ign ? (
     <>
       <section class="section"><div class="wrap prose">
