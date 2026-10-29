@@ -5,6 +5,7 @@ import Blocks from './Blocks.astro';
 import W from './Widgets.astro';
 import LeadForm from './LeadForm.astro';
 import Icon from './Icon.astro';
+import Thumb from './Thumb.astro';
 import { SERVICES, IGN, type Service } from '../data/services';
 import { IGN_PAGES, IGN_FAQ, IGN_HUB, HOWTO_STEPS } from '../data/ignition';
 import { DISTRICTS } from '../data/kyiv';
@@ -82,7 +83,7 @@ const [first, ...rest] = svc.sections;
   <section class="section soft"><div class="wrap">
     <h2>{t('Схожі послуги', 'Похожие услуги')}</h2>
     <div class="grid g4">
-      {related.map((r) => <a class="card" href={r.path}><Icon name={r.icon} /><h3>{r.name}</h3></a>)}
+      {related.map((r) => <a class="card has-img" href={r.path}><Thumb file={r.image?.file ?? 'remont-zamka-zapaliuvannia-kyiv'} alt={r.image?.alt ?? t('Кермо і ключ у замку запалювання автомобіля', 'Руль и ключ в замке зажигания автомобиля')} /><h3>{r.name}</h3></a>)}
     </div>
     {relatedBlog.length > 0 && <><h2 style="margin-top:32px">{t('Корисні статті', 'Полезные статьи')}</h2><ul class="cols">{relatedBlog.map((b) => <li><a href={`/blog/${b.id}/`}>{b.data.title}</a></li>)}</ul></>}
     <h2 style="margin-top:32px">{ign ? t('Ремонт замка запалювання у вашому районі', 'Ремонт замка зажигания в вашем районе') : `${svc.short} ${t('у вашому районі', 'в вашем районе')}`}</h2>

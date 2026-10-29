@@ -5,6 +5,7 @@ import Blocks from '../../../../components/Blocks.astro';
 import W from '../../../../components/Widgets.astro';
 import LeadForm from '../../../../components/LeadForm.astro';
 import Icon from '../../../../components/Icon.astro';
+import Thumb from '../../../../components/Thumb.astro';
 import { IGN } from '../../../../data/services';
 import { IGN_HUB, IGN_PAGES, IGN_FAQ, SITUATIONS, HOWTO_STEPS } from '../../../../data/ignition';
 import { BRANDS } from '../../../../data/brands';
@@ -28,8 +29,8 @@ const schema = [
   <section class="section"><div class="wrap">
     <h2>Все услуги с ключами и замками зажигания</h2>
     <div class="grid g3">
-      {IGN_PAGES.map((s) => <a class="card" href={s.path}><Icon name={s.icon} /><h3>{s.name}</h3><p>{s.lead.split('. ')[0].replace(/[.!?…]?$/, (m) => m || '.')}</p></a>)}
-      <a class="card" href={IGN + 'marky/'}><Icon name="car" /><h3>Ключи и замки по маркам авто</h3><p>Типичные проблемы, ключи и цены для Toyota, VW, Ford, BMW и других марок.</p></a>
+      {IGN_PAGES.map((s) => <a class="card has-img" href={s.path}><Thumb file={s.image.file} alt={s.image.alt} /><h3>{s.name}</h3><p>{s.lead.split('. ')[0].replace(/[.!?…]?$/, (m) => m || '.')}</p></a>)}
+      <a class="card has-img" href={IGN + 'marky/'}><Thumb file="vyhotovlennia-kliucha-zapaliuvannia" alt="Ключ с пультом в руке на фоне автомобиля" /><h3>Ключи и замки по маркам авто</h3><p>Типичные проблемы, ключи и цены для Toyota, VW, Ford, BMW и других марок.</p></a>
     </div>
   </div></section>
 

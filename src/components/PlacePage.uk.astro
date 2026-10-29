@@ -8,6 +8,7 @@ import Blocks from './Blocks.astro';
 import W from './Widgets.astro';
 import LeadForm from './LeadForm.astro';
 import Icon from './Icon.astro';
+import Thumb from './Thumb.astro';
 import type { Place } from '../data/kyiv';
 import { DISTRICTS } from '../data/kyiv';
 import { LOCAL, TIPS } from '../data/local';
@@ -92,11 +93,11 @@ const mainSvcs = SERVICES.slice(0, 6);
     <p>{svcIntro}</p>
     <div class="grid g3">
       {mainSvcs.map((s) => (
-        <a class="card" href={hasDoor && s.slug === 'vidkryttia-dverey' ? comboUrl(p, DOOR_COMBO) : s.path}>
-          <Icon name={s.icon} /><h3>{s.short}</h3>
+        <a class="card has-img" href={hasDoor && s.slug === 'vidkryttia-dverey' ? comboUrl(p, DOOR_COMBO) : s.path}>
+          <Thumb file={s.image.file} alt={s.image.alt} /><h3>{s.short}</h3>
         </a>
       ))}
-      <a class="card" href={hasIgn ? comboUrl(p, IGN_COMBO) : IGN}><Icon name="ignition" /><h3>Ключі та замок запалювання</h3></a>
+      <a class="card has-img" href={hasIgn ? comboUrl(p, IGN_COMBO) : IGN}><Thumb file="remont-zamka-zapaliuvannia-kyiv" alt="Кермо і ключ у замку запалювання автомобіля" /><h3>Ключі та замок запалювання</h3></a>
     </div>
     <div style="margin-top:20px"><W type="prices" ids={isKyiv ? ['door-simple', 'door-armored', 'car-open', 'cyl-replace'] : ['call-oblast', 'door-simple', 'car-open', 'ign-repair']} caption={`Орієнтовні ціни ${p.loc}`} /></div>
   </div></section>

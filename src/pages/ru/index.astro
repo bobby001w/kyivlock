@@ -84,7 +84,7 @@ const tiles = [...SERVICES.slice(0, 2), { path: IGN, name: IGN_HUB.name, image: 
 
   <section class="section soft"><div class="wrap">
     <h2>Полезные советы от мастеров</h2>
-    <div class="grid g3">{posts.map((p) => <a class="card" href={`/blog/${p.id}/`}><h3>{p.data.title}</h3><p class="muted">{p.data.description}</p></a>)}</div>
+    <div class="grid g3">{posts.map((p) => <a class="card has-img" href={`/blog/${p.id}/`}>{p.data.image && <Thumb file={p.data.image} alt={p.data.imageAlt ?? p.data.title} />}<h3>{p.data.title}</h3><p class="muted">{p.data.description}</p></a>)}</div>
     <p><a href="/blog/">Все статьи блога</a></p>
   </div></section>
 
