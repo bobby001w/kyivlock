@@ -343,3 +343,17 @@ h2.rv.in::before { width: 40px !important; }
 @keyframes ring { 0%, 80%, 100% { transform: rotate(0); } 83% { transform: rotate(-16deg); } 86% { transform: rotate(14deg); } 89% { transform: rotate(-10deg); } 92% { transform: rotate(8deg); } 95% { transform: rotate(-3deg); } }
 @keyframes shine { 0%, 70% { left: -60%; } 100% { left: 130%; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+
+/* ── Телефон: зони натискання ≥ 44 px і читабельні дрібні підписи ── */
+@media (max-width: 899px) {
+  .logo { min-height: 44px; }
+  /* Номер у верхній смузі й у картці дзвінка: більша зона дотику без зміни висоти рядка */
+  .top a { display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0; }
+  .callcard-num { padding: 8px 0; margin: 8px 0; }
+  /* Списки посилань (райони, статті, послуги): кожне посилання — окрема зручна ціль */
+  main :not(.chips) > li > a:only-child, .ftr li > a, main h3 > a:only-child { display: inline-block; padding: 9px 0; min-width: 44px; }
+  main :not(.chips) > li:has(> a:only-child), .ftr li { margin-bottom: 0; }
+  .ftr-legal a { display: inline-flex; align-items: center; min-height: 44px; }
+  .ftr-legal { gap: 0 18px; align-items: center; }
+  .hero-kicker, .callcard .eyebrow { font-size: .8rem; letter-spacing: .12em; }
+}
