@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по аварийному вскрытию замков, KyivLock"
 cluster: general
 image: blog-tsina-vidkryttia
-imageAlt: "Прайс на вскрытие замков KyivLock в Киеве"
+imageAlt: "Ключи, навесной замок и ящик с инструментами"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/vidkryttia-avto/", "/poslugy/vidkryttia-seyfiv/", "/poslugy/zamina-lychynky/"]
 sources:
   - name: "Закон Украины «О защите прав потребителей» — право на информацию о цене"

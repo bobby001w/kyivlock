@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-kliuch-ne-povertaietsia
-imageAlt: "Ключ в замке зажигания, который не поворачивается, — диагностика мастера KyivLock"
+imageAlt: "Ключ в замке зажигания у руля"
 related: ["/poslugy/kliuchi-zapaliuvannia/kliuch-ne-povertaietsia/", "/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/zamina-zamka-zapaliuvannia/"]
 ---
 

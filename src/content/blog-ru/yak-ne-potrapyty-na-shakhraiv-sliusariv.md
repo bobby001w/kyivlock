@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по аварийному вскрытию замков, KyivLock"
 cluster: general
 image: blog-shakhrai-sliusari
-imageAlt: "Честный мастер KyivLock показывает клиенту прайс перед началом работ"
+imageAlt: "Инструменты на стене мастерской"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/zamina-zamkiv/", "/poslugy/vidkryttia-avto/"]
 sources:
   - name: "Закон Украины «О защите прав потребителей»"

@@ -6,7 +6,7 @@ date: "2026-08-28"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-zlamanyi-kliuch
-imageAlt: "Уламок ключа в замку запалювання автомобіля"
+imageAlt: "Металевий ключ на чорному тлі"
 related: ["/poslugy/kliuchi-zapaliuvannia/zlamanyi-kliuch/", "/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/", "/poslugy/kliuchi-zapaliuvannia/remont-vykydnoho-kliucha/"]
 ---
 

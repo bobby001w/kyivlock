@@ -1,6 +1,7 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import Thumb from '../../../components/Thumb.astro';
 const posts = (await getCollection('blogRu')).sort((a, b) => b.data.updated.localeCompare(a.data.updated));
 const groups = [
   { id: 'general', title: 'Двери, замки и безопасность' },
@@ -17,7 +18,7 @@ const groups = [
       return list.length > 0 && (
         <>
           <h2>{g.title}</h2>
-          <div class="grid g3" style="margin-bottom:32px">{list.map((p) => <a class="card" href={`/blog/${p.id}/`}><h3>{p.data.title}</h3><p class="muted">{p.data.description}</p></a>)}</div>
+          <div class="grid g3" style="margin-bottom:32px">{list.map((p) => <a class="card has-img" href={`/blog/${p.id}/`}>{p.data.image && <Thumb file={p.data.image} alt={p.data.imageAlt ?? p.data.title} />}<h3>{p.data.title}</h3><p class="muted">{p.data.description}</p></a>)}</div>
         </>
       );
     })}

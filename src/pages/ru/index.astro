@@ -5,6 +5,7 @@ import Blocks from '../../components/Blocks.astro';
 import W from '../../components/Widgets.astro';
 import LeadForm from '../../components/LeadForm.astro';
 import Icon from '../../components/Icon.astro';
+import Thumb from '../../components/Thumb.astro';
 import { SERVICES, IGN } from '../../data/services';
 import { IGN_HUB } from '../../data/ignition';
 import { DISTRICTS } from '../../data/kyiv';
@@ -25,7 +26,7 @@ const faq = [
 const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'KyivLock', url: abs('/'), inLanguage: 'ru' };
 // Перше речення опису; якщо задовге — обрізаємо по слову, а не посеред слова.
 const teaser = (lead: string) => { const f = lead.split('. ')[0]; return f.length <= 130 ? f : f.slice(0, f.lastIndexOf(' ', 127)).replace(/[,;:—–-]\s*$/, '') + '…'; };
-const tiles = [...SERVICES.slice(0, 2), { path: IGN, name: IGN_HUB.name, icon: 'ignition', lead: 'Ремонт и замена замка зажигания, ключи с чипом и смарт-ключи' }, ...SERVICES.slice(2)];
+const tiles = [...SERVICES.slice(0, 2), { path: IGN, name: IGN_HUB.name, image: { file: 'remont-zamka-zapaliuvannia-kyiv', alt: 'Руль и ключ в замке зажигания автомобиля' }, lead: 'Ремонт и замена замка зажигания, ключи с чипом и смарт-ключи' }, ...SERVICES.slice(2)];
 ---
 <Base title="Вскрытие замков Киев — выезд 15–20 мин, 24/7 | KyivLock" description="Аварийное вскрытие дверей, авто, сейфов в Киеве и области без повреждений. Круглосуточно, от 500 грн, гарантия. Ремонт замков зажигания. Звоните {PHONE}." path="/" schema={[localBusiness(), website, faqPage(faq)]}>
   <Hero h1="Аварийное вскрытие замков в Киеве и области" lead="Откроем дверь, авто или сейф без повреждений, заменим замок или отремонтируем замок зажигания. <strong>Круглосуточно, выезд от 15 минут</strong>, фиксированная цена до начала работ." />
@@ -33,7 +34,7 @@ const tiles = [...SERVICES.slice(0, 2), { path: IGN, name: IGN_HUB.name, icon: '
   <section class="section"><div class="wrap">
     <h2>Наши услуги</h2>
     <div class="grid g4">
-      {tiles.map((s) => <a class="card" href={s.path}><Icon name={s.icon} /><h3>{s.name}</h3><p>{teaser(s.lead)}</p></a>)}
+      {tiles.map((s) => <a class="card has-img" href={s.path}><Thumb file={s.image.file} alt={s.image.alt} /><h3>{s.name}</h3><p>{teaser(s.lead)}</p></a>)}
     </div>
   </div></section>
 

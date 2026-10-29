@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-shakhrai-kliuchi
-imageAlt: "Мастер KyivLock проверяет техпаспорт перед изготовлением ключа"
+imageAlt: "Стенд с заготовками ключей"
 related: ["/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/", "/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/", "/poslugy/kliuchi-zapaliuvannia/vtracheni-vsi-kliuchi/"]
 sources:
   - name: "Закон Украины «О защите прав потребителей»"

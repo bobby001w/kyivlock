@@ -6,7 +6,7 @@ date: "2026-09-25"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-zahubyv-kliuchi-avto
-imageAlt: "Власник авто без ключів біля автомобіля на парковці в Києві"
+imageAlt: "Ключ від авто в руці на тлі автомобіля"
 related: ["/poslugy/kliuchi-zapaliuvannia/vtracheni-vsi-kliuchi/", "/poslugy/vidkryttia-avto/", "/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/"]
 sources:
   - name: "Національна поліція України — повідомлення про злочин (102)"

@@ -6,7 +6,7 @@ date: "2026-10-27"
 updated: "2026-10-27"
 cluster: ignition
 image: blog-batareika-kliucha
-imageAlt: "Заміна батарейки в автомобільному ключі з пультом"
+imageAlt: "Кнопки блокування дверей у салоні автомобіля"
 related: ["/poslugy/kliuchi-zapaliuvannia/smart-kliuch/", "/poslugy/kliuchi-zapaliuvannia/remont-vykydnoho-kliucha/", "/poslugy/kliuchi-zapaliuvannia/zapasnyi-kliuch/"]
 ---
 

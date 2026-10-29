@@ -6,7 +6,7 @@ date: "2026-06-25"
 updated: "2026-10-27"
 cluster: ignition
 image: blog-shakhrai-kliuchi
-imageAlt: "Майстер KyivLock перевіряє техпаспорт перед виготовленням ключа"
+imageAlt: "Стенд із заготовками ключів"
 related: ["/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/", "/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/", "/poslugy/kliuchi-zapaliuvannia/vtracheni-vsi-kliuchi/"]
 sources:
   - name: "Закон України «Про захист прав споживачів»"

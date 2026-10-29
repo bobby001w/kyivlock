@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по аварийному вскрытию замков, KyivLock"
 cluster: doors
 image: blog-zakhlopnulysia-dveri
-imageAlt: "Захлопнутая входная дверь квартиры — мастер KyivLock готовится к вскрытию"
+imageAlt: "Ключи в замке белой двери"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/zamina-lychynky/", "/poslugy/vidkryttia-pislia-vtraty-kliuchiv/"]
 sources:
   - name: "Закон Украины «О защите прав потребителей»"

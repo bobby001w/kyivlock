@@ -6,7 +6,7 @@ date: "2026-09-05"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-kliuch-ne-povertaietsia
-imageAlt: "Ключ у замку запалювання, який не повертається — діагностика майстра KyivLock"
+imageAlt: "Ключ у замку запалювання біля керма"
 related: ["/poslugy/kliuchi-zapaliuvannia/kliuch-ne-povertaietsia/", "/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/zamina-zamka-zapaliuvannia/"]
 ---
 

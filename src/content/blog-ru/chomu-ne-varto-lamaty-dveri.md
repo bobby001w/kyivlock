@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по аварийному вскрытию замков, KyivLock"
 cluster: doors
 image: blog-ne-lamaty-dveri
-imageAlt: "Повреждённая коробка металлической двери после попытки выбить её самостоятельно"
+imageAlt: "Дверная ручка на белой двери квартиры"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/zamina-zamkiv/", "/poslugy/vstanovlennia-zamkiv/"]
 sources:
   - name: "ДСТУ EN 1627 — двери, окна: устойчивость к взлому (классификация)"

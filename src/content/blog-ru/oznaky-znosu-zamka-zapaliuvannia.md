@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-oznaky-znosu-zamka
-imageAlt: "Ключ в изношенном замке зажигания автомобиля"
+imageAlt: "Ключ в замке зажигания автомобиля"
 related: ["/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/zamina-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/remont-kontaktnoi-hrupy/"]
 ---
 

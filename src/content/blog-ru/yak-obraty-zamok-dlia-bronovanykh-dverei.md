@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по замкам дверей, KyivLock"
 cluster: general
 image: blog-zamok-bronovani-dveri
-imageAlt: "Цилиндр повышенной секретности и броненакладка на бронированной двери"
+imageAlt: "Металлическая дверь с замком"
 related: ["/poslugy/zamina-zamkiv/", "/poslugy/zamina-lychynky/", "/poslugy/vstanovlennia-zamkiv/"]
 sources:
   - name: "ДСТУ EN 1303 — цилиндры для замков, требования и методы испытаний"

@@ -6,7 +6,7 @@ date: "2026-06-12"
 updated: "2026-10-26"
 cluster: general
 image: blog-zamok-bronovani-dveri
-imageAlt: "Циліндр підвищеної секретності та броненакладка на броньованих дверях"
+imageAlt: "Металеві двері із замком"
 related: ["/poslugy/zamina-zamkiv/", "/poslugy/zamina-lychynky/", "/poslugy/vstanovlennia-zamkiv/"]
 sources:
   - name: "ДСТУ EN 1303 — циліндри для замків, вимоги та методи випробувань"

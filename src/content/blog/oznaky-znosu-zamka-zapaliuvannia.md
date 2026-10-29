@@ -6,7 +6,7 @@ date: "2026-10-27"
 updated: "2026-10-27"
 cluster: ignition
 image: blog-oznaky-znosu-zamka
-imageAlt: "Ключ у зношеному замку запалювання автомобіля"
+imageAlt: "Ключ у замку запалювання автомобіля"
 related: ["/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/zamina-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/remont-kontaktnoi-hrupy/"]
 ---
 

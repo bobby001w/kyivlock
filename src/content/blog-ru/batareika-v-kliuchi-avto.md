@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-batareika-kliucha
-imageAlt: "Замена батарейки в автомобильном ключе с пультом"
+imageAlt: "Кнопки блокировки дверей в салоне автомобиля"
 related: ["/poslugy/kliuchi-zapaliuvannia/smart-kliuch/", "/poslugy/kliuchi-zapaliuvannia/remont-vykydnoho-kliucha/", "/poslugy/kliuchi-zapaliuvannia/zapasnyi-kliuch/"]
 ---
 

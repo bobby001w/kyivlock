@@ -6,7 +6,7 @@ date: "2026-10-15"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-zamok-zymoiu
-imageAlt: "Обробка личинки замка автомобіля мастилом перед зимою"
+imageAlt: "Дзеркало автомобіля під снігом"
 related: ["/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/kliuch-ne-povertaietsia/", "/poslugy/kliuchi-zapaliuvannia/smart-kliuch/"]
 sources:
   - name: "Український гідрометеорологічний центр"

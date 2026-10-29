@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-zlamanyi-kliuch
-imageAlt: "Обломок ключа в замке зажигания автомобиля"
+imageAlt: "Металлический ключ на чёрном фоне"
 related: ["/poslugy/kliuchi-zapaliuvannia/zlamanyi-kliuch/", "/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/", "/poslugy/kliuchi-zapaliuvannia/remont-vykydnoho-kliucha/"]
 ---
 

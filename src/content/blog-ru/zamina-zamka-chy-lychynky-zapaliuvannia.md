@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-zamina-zamka-chy-lychynky
-imageAlt: "Личинка и замок зажигания в сборе на столе мастера"
+imageAlt: "Ключ в механизме замка крупным планом"
 related: ["/poslugy/kliuchi-zapaliuvannia/zamina-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/remont-kontaktnoi-hrupy/"]
 ---
 

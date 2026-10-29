@@ -6,7 +6,7 @@ date: "2026-09-01"
 updated: "2026-10-27"
 cluster: general
 image: blog-tsina-vidkryttia
-imageAlt: "Прайс на відкриття замків KyivLock у Києві"
+imageAlt: "Ключі, навісний замок і ящик з інструментами"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/vidkryttia-avto/", "/poslugy/vidkryttia-seyfiv/", "/poslugy/zamina-lychynky/"]
 sources:
   - name: "Закон України «Про захист прав споживачів» — право на інформацію про ціну"

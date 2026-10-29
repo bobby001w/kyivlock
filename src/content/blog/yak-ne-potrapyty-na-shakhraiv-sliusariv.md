@@ -6,7 +6,7 @@ date: "2026-08-20"
 updated: "2026-10-27"
 cluster: general
 image: blog-shakhrai-sliusari
-imageAlt: "Чесний майстер KyivLock показує клієнту прайс перед початком робіт"
+imageAlt: "Інструменти на стіні майстерні"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/zamina-zamkiv/", "/poslugy/vidkryttia-avto/"]
 sources:
   - name: "Закон України «Про захист прав споживачів»"

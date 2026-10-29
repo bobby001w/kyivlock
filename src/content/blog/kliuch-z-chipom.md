@@ -6,7 +6,7 @@ date: "2026-07-25"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-kliuch-z-chipom
-imageAlt: "Ключ запалювання з чіпом-транспондером і програматор"
+imageAlt: "Ключ автомобіля з пультом і чіпом на долоні"
 related: ["/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/", "/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/", "/poslugy/kliuchi-zapaliuvannia/vtracheni-vsi-kliuchi/"]
 ---
 

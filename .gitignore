@@ -19,3 +19,6 @@ pnpm-debug.log*
 # Системні файли
 .DS_Store
 Thumbs.db
+
+# Вихідні фото (завантажуються scripts/fetch-photos.mjs; у репозиторії — лише стиснуті public/images)
+images-src/

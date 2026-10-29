@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-zamok-zymoiu
-imageAlt: "Обработка личинки замка автомобиля смазкой перед зимой"
+imageAlt: "Зеркало автомобиля под снегом"
 related: ["/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/kliuch-ne-povertaietsia/", "/poslugy/kliuchi-zapaliuvannia/smart-kliuch/"]
 sources:
   - name: "Украинский гидрометеорологический центр"

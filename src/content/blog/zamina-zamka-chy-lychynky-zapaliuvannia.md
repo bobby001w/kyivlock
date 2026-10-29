@@ -6,7 +6,7 @@ date: "2026-07-02"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-zamina-zamka-chy-lychynky
-imageAlt: "Личинка і замок запалювання в зборі на столі майстра"
+imageAlt: "Ключ у механізмі замка крупним планом"
 related: ["/poslugy/kliuchi-zapaliuvannia/zamina-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/kliuchi-zapaliuvannia/remont-kontaktnoi-hrupy/"]
 ---
 

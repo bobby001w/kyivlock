@@ -6,7 +6,7 @@ date: "2026-09-15"
 updated: "2026-10-26"
 cluster: doors
 image: blog-zakhlopnulysia-dveri
-imageAlt: "Захлопнуті вхідні двері квартири — майстер KyivLock готується до відкриття"
+imageAlt: "Ключі в замку білих дверей"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/zamina-lychynky/", "/poslugy/vidkryttia-pislia-vtraty-kliuchiv/"]
 sources:
   - name: "Закон України «Про захист прав споживачів»"

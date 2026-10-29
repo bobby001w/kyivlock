@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-zahubyv-kliuchi-avto
-imageAlt: "Владелец авто без ключей у автомобиля на парковке в Киеве"
+imageAlt: "Ключ от авто в руке на фоне автомобиля"
 related: ["/poslugy/kliuchi-zapaliuvannia/vtracheni-vsi-kliuchi/", "/poslugy/vidkryttia-avto/", "/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/"]
 sources:
   - name: "Национальная полиция Украины — сообщение о преступлении (102)"

@@ -6,7 +6,7 @@ date: "2026-10-20"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-zamerz-zamok
-imageAlt: "Автомобіль узимку в Києві — замерзлий замок запалювання"
+imageAlt: "Двері автомобіля в снігу та інеї"
 related: ["/poslugy/kliuchi-zapaliuvannia/kliuch-ne-povertaietsia/", "/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/vidkryttia-avto/"]
 sources:
   - name: "Український гідрометеорологічний центр — прогноз погоди"

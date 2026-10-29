@@ -6,7 +6,7 @@ date: "2026-08-08"
 updated: "2026-10-26"
 cluster: ignition
 image: blog-smart-kliuch
-imageAlt: "Смарт-ключ біля кнопки Start/Stop автомобіля"
+imageAlt: "Смарт-ключі автомобіля"
 related: ["/poslugy/kliuchi-zapaliuvannia/smart-kliuch/", "/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/", "/poslugy/kliuchi-zapaliuvannia/remont-vykydnoho-kliucha/"]
 ---
 

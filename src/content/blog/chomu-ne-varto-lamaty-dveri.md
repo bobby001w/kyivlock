@@ -6,7 +6,7 @@ date: "2026-07-10"
 updated: "2026-10-26"
 cluster: doors
 image: blog-ne-lamaty-dveri
-imageAlt: "Пошкоджена коробка металевих дверей після спроби вибити їх самостійно"
+imageAlt: "Дверна ручка на білих дверях квартири"
 related: ["/poslugy/vidkryttia-dverey/", "/poslugy/zamina-zamkiv/", "/poslugy/vstanovlennia-zamkiv/"]
 sources:
   - name: "ДСТУ EN 1627 — двері, вікна: стійкість до зламу (класифікація)"

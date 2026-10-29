@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-smart-kliuch
-imageAlt: "Смарт-ключ у кнопки Start/Stop автомобиля"
+imageAlt: "Смарт-ключи автомобиля"
 related: ["/poslugy/kliuchi-zapaliuvannia/smart-kliuch/", "/poslugy/kliuchi-zapaliuvannia/kliuch-z-chipom-imobilayzer/", "/poslugy/kliuchi-zapaliuvannia/remont-vykydnoho-kliucha/"]
 ---
 

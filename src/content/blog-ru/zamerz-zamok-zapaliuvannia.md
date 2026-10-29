@@ -7,7 +7,7 @@ updated: "2026-10-27"
 authorRole: "мастер по ключам и замкам зажигания, KyivLock"
 cluster: ignition
 image: blog-zamerz-zamok
-imageAlt: "Автомобиль зимой в Киеве — замёрзший замок зажигания"
+imageAlt: "Дверь автомобиля в снегу и инее"
 related: ["/poslugy/kliuchi-zapaliuvannia/kliuch-ne-povertaietsia/", "/poslugy/kliuchi-zapaliuvannia/remont-zamka-zapaliuvannia/", "/poslugy/vidkryttia-avto/"]
 sources:
   - name: "Украинский гидрометеорологический центр — прогноз погоды"
