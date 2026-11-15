@@ -1,3 +1,6 @@
+# Публікація на GitHub Pages за офіційною інструкцією Astro:
+# https://docs.astro.build/en/guides/deploy/github/
+# У репозиторії: Settings → Pages → Build and deployment → Source: GitHub Actions.
 name: Deploy to GitHub Pages
 
 on:
@@ -15,24 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout your repository using git
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build the site
-        run: npm run build
-
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist
+        uses: actions/checkout@v5
+      - name: Install, build, and upload your site
+        uses: withastro/action@v5
 
   deploy:
     needs: build
@@ -44,5 +32,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-        
