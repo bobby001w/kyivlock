@@ -1,0 +1,101 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Blocks from '../../components/Blocks.astro';
+import W from '../../components/Widgets.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import Icon from '../../components/Icon.astro';
+import Thumb from '../../components/Thumb.astro';
+import { SERVICES, IGN } from '../../data/services';
+import { IGN_HUB } from '../../data/ignition';
+import { DISTRICTS } from '../../data/kyiv';
+import { BUSINESS, links } from '../../data/business';
+import { localBusiness, faqPage, abs } from '../../lib/schema';
+import { placeUrl, TOP_CITIES } from '../../lib/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blogRu')).sort((a, b) => b.data.updated.localeCompare(a.data.updated)).slice(0, 3);
+const faq = [
+  { q: 'Сколько стоит аварийное вскрытие замка в Киеве?', a: 'Вскрытие двери с простым цилиндром — от 500 грн, бронированной двери — от 1200 грн, авто — от 600 грн, сейфа — от 1000 грн, ремонт замка зажигания — от 2000 грн. Вызов мастера по Киеву — 1000 грн, по области — 1500 грн. Фиксированную цену называем до начала работы.' },
+  { q: 'Как быстро приедет мастер?', a: 'По Киеву — обычно за 15–40 минут. Мастера дежурят на обоих берегах Днепра.' },
+  { q: 'Вскрываете двери без повреждений?', a: 'Да, в более чем 90% случаев — неразрушающим методом. Высверливание — только с вашего согласия.' },
+  { q: 'Как вы проверяете, что я владелец?', a: 'Проверяем паспорт с регистрацией, договор аренды или купли, для авто — техпаспорт. Если документы внутри — проверяем сразу после вскрытия.' },
+  { q: 'Работаете ночью и в праздники?', a: 'Да, круглосуточно, 7 дней в неделю, включая праздники, и без ночных доплат.' },
+  { q: 'Ремонтируете замки зажигания?', a: 'Да: ремонт и замена личинки, извлечение сломанного ключа, ключи с чипом, смарт-ключи, утеряны все ключи.' },
+];
+const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'KyivLock', url: abs('/'), inLanguage: 'ru' };
+// Перше речення опису; якщо задовге — обрізаємо по слову, а не посеред слова.
+const teaser = (lead: string) => { const f = lead.split('. ')[0]; return f.length <= 130 ? f : f.slice(0, f.lastIndexOf(' ', 127)).replace(/[,;:—–-]\s*$/, '') + '…'; };
+const tiles = [...SERVICES.slice(0, 2), { path: IGN, name: IGN_HUB.name, image: { file: 'remont-zamka-zapaliuvannia-kyiv', alt: 'Руль и ключ в замке зажигания автомобиля' }, lead: 'Ремонт и замена замка зажигания, ключи с чипом и смарт-ключи' }, ...SERVICES.slice(2)];
+---
+<Base title="Вскрытие замков Киев — выезд 15–20 мин, 24/7 | KyivLock" description="Аварийное вскрытие дверей, авто, сейфов в Киеве и области без повреждений. Круглосуточно, от 500 грн, гарантия. Ремонт замков зажигания. Звоните {PHONE}." path="/" schema={[localBusiness(), website, faqPage(faq)]}>
+  <Hero h1="Аварийное вскрытие замков в Киеве и области" lead="Откроем дверь, авто или сейф без повреждений, заменим замок или отремонтируем замок зажигания. <strong>Круглосуточно, выезд от 15 минут</strong>, фиксированная цена до начала работ." />
+
+  <section class="section"><div class="wrap">
+    <h2>Наши услуги</h2>
+    <div class="grid g4">
+      {tiles.map((s) => <a class="card has-img" href={s.path}><Thumb file={s.image.file} alt={s.image.alt} /><h3>{s.name}</h3><p>{teaser(s.lead)}</p></a>)}
+    </div>
+  </div></section>
+
+  <Blocks type="steps" seed="home" />
+  <Blocks type="advantages" />
+
+  <section class="section soft"><div class="wrap two">
+    <div>
+      <h2>Цены на вскрытие замков</h2>
+      <W type="prices" ids={['door-simple', 'door-armored', 'car-open', 'safe-open', 'cyl-replace', 'ign-repair', 'ign-cyl', 'ign-key-chip', 'ign-key-smart']} />
+      <p><a href="/tsiny/">Полный прайс</a></p>
+    </div>
+    <div><W type="eta" /><div style="margin-top:16px"><LeadForm uid="prices" title="Узнать точную цену" /></div></div>
+  </div></section>
+
+  <section class="section"><div class="wrap prose">
+    <h2>Аварийное вскрытие замков в Киеве: когда важна каждая минута</h2>
+    <p>Захлопнулась дверь, сломался ключ в замке, потеряли ключи по дороге домой или ребёнок закрылся в квартире — такие ситуации случаются неожиданно и всегда не вовремя. KyivLock — служба аварийного вскрытия замков, которая работает круглосуточно во всех районах Киева и в пригородах. Наши мастера дежурят на правом и левом берегу, поэтому к большинству адресов приезжают за 15–30 минут, а не за час.</p>
+    <p>Мы вскрываем входные, бронированные, тамбурные и межкомнатные двери, сейфы, офисы и магазины, а также автомобили любых марок. Более 90% замков открываем <strong>неразрушающим методом</strong> — профессиональным инструментом для цилиндровых и сувальдных механизмов. Работаем с замками Mul-T-Lock, Cisa, Abloy, Gerda, Securemme, Kale, Mottura, а также с электронными и смарт-замками.</p>
+    <h3>Честная цена и проверка документов</h3>
+    <p>Мы называем фиксированную стоимость до начала работ и не «накручиваем» цену на месте. Вскрываем двери только владельцам и жильцам — проверяем паспорт с регистрацией, договор аренды или купли, для авто — техпаспорт. Так мы защищаем вас от мошенников и недобросовестных «слесарей», о которых рассказываем в статье <a href="/blog/yak-ne-potrapyty-na-shakhraiv-sliusariv/">«Как не попасть на мошенников-слесарей»</a>.</p>
+    <h3>Ключи зажигания и ремонт замка зажигания</h3>
+    <p>Отдельное направление — <a href={IGN}>ремонт и замена замков зажигания</a>, изготовление ключей с чипом и смарт-ключей, восстановление доступа, когда утеряны все ключи от авто. Ключ не поворачивается, застрял или сломался — приедем к авто во двор, на парковку ТРЦ или на трассу.</p>
+    <h3>После вскрытия</h3>
+    <p>Если ключи потеряны или замок изношен — сразу <a href="/poslugy/zamina-lychynky/">заменим сердцевину</a> или <a href="/poslugy/zamina-zamkiv/">замок</a> с гарантией. В машине мастера всегда есть запас популярных личинок и замков.</p>
+  </div></section>
+
+  <section class="section soft"><div class="wrap">
+    <h2>Районы Киева и города области</h2>
+    <W type="links" links={DISTRICTS.map((d) => ({ href: placeUrl(d), name: d.name }))} />
+    <h3>Пригороды и Киевская область</h3>
+    <W type="links" links={[...TOP_CITIES.map((c) => ({ href: placeUrl(c), name: c.name })), { href: '/kyivska-oblast/', name: 'Вся область →' }]} />
+  </div></section>
+
+  <Blocks type="ownership" seed="home" />
+
+  <section class="section soft"><div class="wrap">
+    <h2>Отзывы клиентов</h2>
+    <W type="reviews" />
+    <p><a href="/vidhuky/">Все отзывы</a></p>
+  </div></section>
+
+  <section class="section"><div class="wrap two">
+    <div><h2>Частые вопросы</h2><W type="faq" items={faq} /><p><a href="/faq/">Все вопросы и ответы</a></p></div>
+    <div><LeadForm uid="bottom" /></div>
+  </div></section>
+
+  <section class="section soft"><div class="wrap">
+    <h2>Полезные советы от мастеров</h2>
+    <div class="grid g3">{posts.map((p) => <a class="card has-img" href={`/blog/${p.id}/`}>{p.data.image && <Thumb file={p.data.image} alt={p.data.imageAlt ?? p.data.title} />}<h3>{p.data.title}</h3><p class="muted">{p.data.description}</p></a>)}</div>
+    <p><a href="/blog/">Все статьи блога</a></p>
+  </div></section>
+
+  <section class="section"><div class="wrap two">
+    <div>
+      <h2>Контакты</h2>
+      <p><strong>{BUSINESS.brand}</strong><br />{BUSINESS.address && <>{BUSINESS.address}<br /></>}
+        Телефон: <a href={links.phone} data-ga="phone_click">{BUSINESS.phone}</a><br />
+        E-mail: <a href={links.email}>{BUSINESS.email}</a><br />Круглосуточно, 24/7</p>
+      <p><a href="/kontakty/">Как нас найти</a></p>
+    </div>
+    <iframe class="map" src={links.map} title="KyivLock на карте Киева" loading="lazy" referrerpolicy="no-referrer-when-downgrade" width="600" height="360"></iframe>
+  </div></section>
+</Base>

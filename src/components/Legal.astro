@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { pricesUpdatedHuman } from '../data/prices';
+import { t } from '../i18n/ctx';
+interface Props { title: string; description: string; h1: string; path: string; name: string }
+const { title, description, h1, path, name } = Astro.props;
+---
+<Base title={title} description={description} path={path} crumbs={[{ name, href: path }]}>
+  <section class="section"><div class="wrap prose">
+    <h1>{h1}</h1>
+    <p class="muted">{t('Редакція від', 'Редакция от')} {pricesUpdatedHuman()}.</p>
+    <slot />
+  </div></section>
+</Base>

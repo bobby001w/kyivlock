@@ -1,0 +1,39 @@
+---
+// Перший екран: H1 + оффер + кнопки зв'язку + картка дзвінка на тлі нічного фото Києва (Поділ, Поштова площа, Дніпро).
+// Фото: Maksym Tymchyk, Unsplash (Unsplash License — вільне комерційне використання). Файли — public/img/kyiv-night-*.
+// Анімація — повільний «наїзд камери» (Ken Burns) і пробіг світла по набережній, лише CSS; вимикається при prefers-reduced-motion.
+import Cta from './Cta.astro';
+import LeadForm from './LeadForm.astro';
+import { BUSINESS } from '../data/business';
+import { t } from '../i18n/ctx';
+interface Props { h1: string; lead: string; badges?: string[]; variant?: 'default' | 'ignition'; place?: string }
+const { h1, lead, badges = t(['Цілодобово, 24/7', 'Виїзд від 15 хв', 'Без пошкоджень', 'Ціна до початку робіт'], ['Круглосуточно, 24/7', 'Выезд от 15 мин', 'Без повреждений', 'Цена до начала работ']), variant = 'default', place } = Astro.props;
+const r = BUSINESS.rating;
+const set = (ext: string) => [800, 1400, 2200].map((w) => `/img/kyiv-night-${w}.${ext} ${w}w`).join(', ');
+---
+<section class="hero">
+  <div class="hero-bg">
+    <picture>
+      <source type="image/avif" srcset={set('avif')} sizes="100vw" />
+      <source type="image/webp" srcset={set('webp')} sizes="100vw" />
+      <img src="/img/kyiv-night-1400.jpg" srcset={set('jpg')} sizes="100vw" alt={t('Нічний Київ: Поділ, Поштова площа і Дніпро', 'Ночной Киев: Подол, Почтовая площадь и Днепр')} width="2200" height="1426" fetchpriority="high" decoding="async" />
+    </picture>
+    <span class="hero-sweep" aria-hidden="true"></span>
+  </div>
+  <div class="wrap hero-grid">
+    <div>
+      <p class="hero-kicker">{t('Аварійна служба замків · Київ і область', 'Аварийная служба замков · Киев и область')}</p>
+      <h1>{h1}</h1>
+      <p class="lead" set:html={lead} />
+      <Cta />
+      <ul class="badges">{badges.map((b) => <li>{b}</li>)}</ul>
+      {BUSINESS.googleBusinessUrl && (r ? (
+        <a class="rating-g" href={BUSINESS.googleBusinessUrl} rel="noopener">★ {r.value.toFixed(1)} · {r.count} {t('відгуків у Google', 'отзывов в Google')}</a>
+      ) : (
+        <a class="rating-g" href={BUSINESS.googleBusinessUrl} rel="noopener">★ {t('Наші відгуки в Google', 'Наши отзывы в Google')}</a>
+      ))}
+      <slot />
+    </div>
+    <LeadForm variant={variant} place={place} uid="hero" />
+  </div>
+</section>

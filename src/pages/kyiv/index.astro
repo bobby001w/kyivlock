@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Blocks from '../../components/Blocks.astro';
+import W from '../../components/Widgets.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import { DISTRICTS } from '../../data/kyiv';
+import { placeUrl, place, children, comboUrl, IGN_COMBO, DOOR_COMBO } from '../../lib/site';
+import { faqPage } from '../../lib/schema';
+const faq = [
+  { q: 'У яких районах Києва ви працюєте?', a: 'У всіх 10 адміністративних районах: Голосіївському, Дарницькому, Деснянському, Дніпровському, Оболонському, Печерському, Подільському, Святошинському, Солом\'янському та Шевченківському.' },
+  { q: 'Чи залежить ціна від району?', a: 'Ні, по Києву ціна однакова для всіх районів: виклик майстра — 1000 грн, вартість робіт — за прайсом.' },
+  { q: 'Як ви встигаєте приїхати за 15–20 хвилин?', a: 'Майстри чергують на правому і лівому березі, тому не залежать від заторів на мостах. Точний час диспетчер називає з урахуванням трафіку.' },
+];
+---
+<Base title="Відкриття замків у Києві — усі райони, 24/7 | KyivLock" description="Аварійне відкриття дверей, авто і сейфів у всіх 10 районах Києва: Оболонь, Троєщина, Позняки, Печерськ, Поділ та ін. Виїзд від 15 хв. Дзвоніть {PHONE}." path="/kyiv/" crumbs={[{ name: 'Райони Києва', href: '/kyiv/' }]} schema={[faqPage(faq)]}>
+  <Hero h1="Аварійне відкриття замків у всіх районах Києва" lead="Майстри KyivLock чергують на обох берегах Дніпра, тож ми приїжджаємо в будь-який район столиці цілодобово — зазвичай за 15–30 хвилин. Оберіть свій район, щоб дізнатися про особливості, час приїзду та ціни." />
+  <section class="section"><div class="wrap">
+    <h2>10 районів Києва</h2>
+    <div class="grid g2">
+      {DISTRICTS.map((d) => {
+        const micros = (d.micros ?? []).filter((m) => m.slug && place(m.slug));
+        return (
+          <div class="card">
+            <h3><a href={placeUrl(d)}>{d.name}</a></h3>
+            <p class="muted">Виїзд {d.eta}{d.metro?.length ? ` · метро: ${d.metro.slice(0, 3).join(', ')}` : ''}</p>
+            {micros.length > 0 && <W type="links" links={micros.map((m) => ({ href: placeUrl(place(m.slug!)!), name: m.name }))} />}
+            <p><a href={comboUrl(d, DOOR_COMBO)}>Відкриття дверей {d.loc}</a> · <a href={comboUrl(d, IGN_COMBO)}>Ключі запалювання {d.loc}</a></p>
+          </div>
+        );
+      })}
+    </div>
+  </div></section>
+  <section class="section soft"><div class="wrap two">
+    <div class="prose">
+      <h2>Чому час приїзду в Києві різний</h2>
+      <p>Київ — місто з десятком мостів через Дніпро і щоденними заторами. Тому ми розподіляємо майстрів по берегах: правобережні райони (Печерський, Шевченківський, Подільський, Оболонський, Святошинський, Солом'янський, Голосіївський) обслуговує одна група майстрів, лівобережні (Дніпровський, Деснянський, Дарницький) — інша. Так виклик на Троєщину не залежить від стану Північного мосту, а виклик на Теремки — від заторів на Південному.</p>
+      <p>Найшвидше ми доїжджаємо в щільні житлові масиви — Позняки, Оболонь, Борщагівку, Виноградар. Найдовше — у приватний сектор на околицях: Конча-Заспа, Бортничі, Пуща-Водиця, Жуляни. Але й там зазвичай не більше 30–40 хвилин.</p>
+    </div>
+    <W type="eta" />
+  </div></section>
+  <Blocks type="ownership" seed="kyiv" />
+  <section class="section"><div class="wrap two">
+    <div><h2>Питання і відповіді</h2><W type="faq" items={faq} /></div>
+    <div><LeadForm uid="bottom" /></div>
+  </div></section>
+  <section class="section soft"><div class="wrap"><h2>Передмістя і Київська область</h2><p>Працюємо також у <a href="/kyivska-oblast/">передмістях Києва та по всій Київській області</a> — Бровари, Ірпінь, Буча, Бориспіль, Вишневе, Боярка та інші.</p></div></section>
+</Base>

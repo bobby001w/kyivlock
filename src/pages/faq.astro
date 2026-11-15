@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import W from '../components/Widgets.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SERVICES } from '../data/services';
+import { IGN_FAQ } from '../data/ignition';
+import { faqPage } from '../lib/schema';
+const general = [
+  { q: 'Як швидко приїде майстер по Києву?', a: 'Зазвичай за 15–40 хвилин залежно від району і трафіку. Майстри чергують на обох берегах.' },
+  { q: 'Чи працюєте цілодобово?', a: 'Так, 24/7, без вихідних і свят.' },
+  { q: 'Як оплатити?', a: 'Переказом на картку або безготівково на рахунок ФОП (зокрема для юридичних осіб). Детальніше — на сторінці <a href="/oplata-i-vyizd/">«Оплата і виїзд»</a>.' },
+  { q: 'Чи даєте гарантію?', a: 'Так, даємо гарантію на виконані роботи — і з замками дверей, і з замками запалювання та ключами. На деталі — гарантія виробника.' },
+  { q: 'Чим ви відрізняєтесь від «слюсарів з оголошень»?', a: 'Фіксованою ціною до початку робіт, перевіркою документів і гарантією. Ми не змінюємо ціну на місці.' },
+];
+const groups = [
+  { title: 'Загальні питання', items: general },
+  ...SERVICES.slice(0, 5).map((s) => ({ title: s.name, items: s.faq.slice(0, 3) })),
+  { title: 'Ключі та замки запалювання', items: IGN_FAQ },
+];
+---
+<Base title="Питання і відповіді про відкриття замків — FAQ | KyivLock" description="Відповіді на часті питання: скільки коштує відкрити двері, як швидко приїде майстер, які документи потрібні, гарантія, ключі запалювання. Тел. {PHONE}." path="/faq/" crumbs={[{ name: 'Питання і відповіді', href: '/faq/' }]} schema={[faqPage(groups.flatMap((g) => g.items))]}>
+  <Hero h1="Питання і відповіді про відкриття замків" lead="Зібрали відповіді на питання, які нам ставлять найчастіше. Не знайшли свого — зателефонуйте, підкажемо безкоштовно." />
+  <section class="section"><div class="wrap two">
+    <div>{groups.map((g) => <><h2>{g.title}</h2><W type="faq" items={g.items} /></>)}</div>
+    <div><LeadForm uid="side" /></div>
+  </div></section>
+</Base>

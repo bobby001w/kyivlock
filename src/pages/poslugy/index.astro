@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Blocks from '../../components/Blocks.astro';
+import Icon from '../../components/Icon.astro';
+import Thumb from '../../components/Thumb.astro';
+import { SERVICES, IGN } from '../../data/services';
+import { IGN_PAGES, IGN_HUB } from '../../data/ignition';
+---
+<Base title="Послуги KyivLock — відкриття і заміна замків у Києві" description="Відкриття дверей, авто, сейфів, офісів, заміна замків і личинок, ремонт замків запалювання та автомобільні ключі в Києві й області. Тел. {PHONE}." path="/poslugy/" crumbs={[{ name: 'Послуги', href: '/poslugy/' }]}>
+  <Hero h1="Послуги з відкриття, заміни та ремонту замків" lead="Від аварійного відкриття дверей до виготовлення смарт-ключа для авто — оберіть послугу, щоб дізнатися деталі, терміни та ціни." />
+  <section class="section"><div class="wrap">
+    <h2>Замки дверей, сейфи, ключі</h2>
+    <div class="grid g3">{SERVICES.map((s) => <a class="card has-img" href={s.path}><Thumb file={s.image.file} alt={s.image.alt} /><h3>{s.name}</h3><p>{s.lead.split('. ')[0].replace(/[.!?…]?$/, (m) => m || '.')}</p></a>)}</div>
+    <h2 style="margin-top:40px"><a href={IGN}>{IGN_HUB.name}</a></h2>
+    <div class="grid g3">{IGN_PAGES.map((s) => <a class="card has-img" href={s.path}><Thumb file={s.image.file} alt={s.image.alt} /><h3>{s.name}</h3></a>)}</div>
+  </div></section>
+  <Blocks type="advantages" />
+</Base>

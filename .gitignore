@@ -1,0 +1,24 @@
+# Залежності та збірка
+node_modules/
+dist/
+build/
+.astro/
+
+# Секрети й локальні змінні оточення
+.env
+.env.*
+!.env.example
+
+# Логи
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Системні файли
+.DS_Store
+Thumbs.db
+
+# Вихідні фото (завантажуються scripts/fetch-photos.mjs; у репозиторії — лише стиснуті public/images)
+images-src/

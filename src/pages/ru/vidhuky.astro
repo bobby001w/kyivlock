@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import W from '../../components/Widgets.astro';
+import { BUSINESS } from '../../data/business';
+import { REVIEWS } from '../../data/reviews';
+import { review } from '../../lib/schema';
+---
+<Base title="Отзывы клиентов KyivLock — вскрытие замков в Киеве" description="Реальные отзывы клиентов KyivLock о вскрытии дверей, авто, замене замков и ремонте замков зажигания в Киеве. Читайте в Google и оставьте свой отзыв." path="/vidhuky/" crumbs={[{ name: 'Отзывы', href: '/vidhuky/' }]} schema={REVIEWS.map((r) => ({ '@context': 'https://schema.org', ...review(r) }))}>
+  <Hero h1="Отзывы клиентов KyivLock" lead="Мы публикуем только настоящие отзывы — из Google Business Profile и от клиентов, которые согласились на публикацию. Никаких выдуманных оценок." />
+  <section class="section"><div class="wrap">
+    <W type="reviews" />
+    {BUSINESS.googleBusinessUrl && <div class="ctas"><a class="btn btn-line" href={BUSINESS.googleBusinessUrl} rel="noopener">Все отзывы в Google</a>{BUSINESS.googleReviewUrl && <a class="btn btn-call" href={BUSINESS.googleReviewUrl} rel="noopener">Оставить отзыв</a>}</div>}
+    <p class="muted">Отзыв касается работы нашего мастера? Мы отвечаем на каждый — и на положительные, и на критические — и исправляем ошибки.</p>
+  </div></section>
+</Base>

@@ -1,0 +1,15 @@
+# 301-редиректи для старих / змінених URL (Cloudflare Pages). Формат: /старий-шлях /новий-шлях/ 301
+# http→https, www→без www і великі літери → нижній регістр налаштовуються правилами Cloudflare (див. README, розділ «Деплой»).
+# Слеш у кінці: Cloudflare Pages автоматично редиректить /kyiv → /kyiv/ (308).
+/index.html            /                                   301
+/ru/index.html         /ru/                                301
+# Сторінка подяки після форми — форми прибрано, сторінку видалено
+/dyakuiemo/            /                                   301
+/dyakuiemo             /                                   301
+# Послугу «Виготовлення ключів» (квартирні/домофонні) прибрано — робимо лише автомобільні ключі
+/poslugy/vyhotovlennia-kliuchiv/     /poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/     301
+/ru/poslugy/vyhotovlennia-kliuchiv/  /ru/poslugy/kliuchi-zapaliuvannia/vyhotovlennia-kliucha/  301
+# Приклади (розкоментуйте й адаптуйте під свої старі URL при переїзді зі старого сайту):
+# /uslugi/*              /poslugy/:splat                     301
+# /raiony/*              /kyiv/:splat                        301
+# Видалені сторінки без заміни — віддавайте 410 (див. deploy/nginx.conf) або редирект на найближчий розділ.

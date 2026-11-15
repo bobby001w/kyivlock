@@ -1,0 +1,11 @@
+---
+import Icon from './Icon.astro';
+import { BUSINESS, links } from '../data/business';
+import { t } from '../i18n/ctx';
+---
+<nav class="mbar" aria-label={t('Швидкий зв\'язок', 'Быстрая связь')}>
+  <a class="call" href={links.phone} data-ga="phone_click"><Icon name="phone" class="" /> {t('Подзвонити', 'Позвонить')}</a>
+  {BUSINESS.telegram && <a class="btn-tg" href={links.telegram} data-ga="messenger_click" data-ch="telegram" aria-label={t('Написати в Telegram', 'Написать в Telegram')} rel="noopener" target="_blank"><Icon name="telegram" class="" /></a>}
+  {BUSINESS.viber && <a class="btn-vb" href={links.viber} data-ga="messenger_click" data-ch="viber" aria-label={t('Написати у Viber', 'Написать в Viber')}><Icon name="viber" class="" /></a>}
+  {BUSINESS.whatsapp && <a class="btn-wa" href={links.whatsapp} data-ga="messenger_click" data-ch="whatsapp" aria-label={t('Написати у WhatsApp', 'Написать в WhatsApp')} rel="noopener" target="_blank"><Icon name="whatsapp" class="" /></a>}
+</nav>
