@@ -9,7 +9,7 @@ import { REVIEWS } from '../data/reviews';
 import { strip } from './seo';
 import { t, lang } from '../i18n/ctx';
 
-// Абсолютна адреса сайту разом із base публікації (https://bobby001w.github.io/kyivlock)
+// Абсолютна адреса сайту разом із base публікації (зараз https://kyivlock.kyiv.ua)
 const SITE = (import.meta.env.SITE as string).replace(/\/$/, '') + (import.meta.env.BASE_URL as string).replace(/\/$/, '');
 export const abs = (p: string) => SITE + p;
 export const BIZ_ID = abs('/#business');
