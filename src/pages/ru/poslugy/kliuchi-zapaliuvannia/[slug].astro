@@ -1,8 +1,0 @@
----
-// Російська версія: getStaticPaths дає лише слаги, а об'єкт береться під час рендеру — вже в контексті /ru/ (дані російською).
-import ServicePage from '../../../../components/ServicePage.astro';
-import { IGN_PAGES } from '../../../../data/ignition';
-export const getStaticPaths = () => IGN_PAGES.map((s) => ({ params: { slug: s.slug } }));
-const svc = IGN_PAGES.find((s) => s.slug === Astro.params.slug)!;
----
-<ServicePage svc={svc} ign />

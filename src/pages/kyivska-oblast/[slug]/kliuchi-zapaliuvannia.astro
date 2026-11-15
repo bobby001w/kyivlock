@@ -1,7 +1,0 @@
----
-import ComboPage from '../../../components/ComboPage.astro';
-import { ignitionCombos } from '../../../lib/site';
-export const getStaticPaths = () => ignitionCombos.filter((p) => p.kind !== 'district').map((p) => ({ params: { slug: p.slug }, props: { p } }));
-const { p } = Astro.props;
----
-<ComboPage p={p} kind="ign" />

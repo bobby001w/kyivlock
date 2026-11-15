@@ -1,7 +1,0 @@
----
-import PlacePage from '../../../components/PlacePage.astro';
-import { KYIV_PLACES } from '../../../lib/site';
-export const getStaticPaths = () => KYIV_PLACES.map((p) => ({ params: { slug: p.slug }, props: { p } }));
-const { p } = Astro.props;
----
-<PlacePage p={p} />

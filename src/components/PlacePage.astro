@@ -1,8 +1,0 @@
----
-// Мовний перемикач: українська версія — PlacePage.uk.astro, російська — PlacePage.ru.astro.
-import Uk from './PlacePage.uk.astro';
-import Ru from './PlacePage.ru.astro';
-import { isRu } from '../i18n/ctx';
-const C = isRu() ? Ru : Uk;
----
-<C {...Astro.props} />

@@ -1,8 +1,0 @@
----
-// Мовний перемикач: українська версія — ComboPage.uk.astro, російська — ComboPage.ru.astro.
-import Uk from './ComboPage.uk.astro';
-import Ru from './ComboPage.ru.astro';
-import { isRu } from '../i18n/ctx';
-const C = isRu() ? Ru : Uk;
----
-<C {...Astro.props} />

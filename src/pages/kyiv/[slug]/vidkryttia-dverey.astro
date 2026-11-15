@@ -1,7 +1,0 @@
----
-import ComboPage from '../../../components/ComboPage.astro';
-import { doorCombos } from '../../../lib/site';
-export const getStaticPaths = () => doorCombos.map((p) => ({ params: { slug: p.slug }, props: { p } }));
-const { p } = Astro.props;
----
-<ComboPage p={p} kind="door" />
