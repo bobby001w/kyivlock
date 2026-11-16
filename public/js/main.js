@@ -1,9 +1,9 @@
 // KyivLock — єдиний клієнтський скрипт (без бібліотек, ~3 КБ, defer).
-// Cookie-згода → відкладений Google Tag Manager (Consent Mode v2), події дзвінків, час приїзду, анімації появи.
+// Cookie-згода → відкладений GA4 / gtag.js (Consent Mode v2), події дзвінків, час приїзду, анімації появи.
 (function () {
   var w = window;
-  var GTM = document.body.dataset.gtm || '';
-  var tagOn = /^GTM-[A-Z0-9]+$/.test(GTM);
+  var GA = document.body.dataset.gaId || '';
+  var tagOn = /^G-[A-Z0-9]+$/.test(GA);
   w.dataLayer = w.dataLayer || [];
   w.gtag = function () { w.dataLayer.push(arguments); };
   w.gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' });
@@ -13,14 +13,19 @@
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* приватний режим */ } },
   };
 
-  // Завантажувач GTM (стандартний сніпет: подія gtm.js + async-скрипт gtm.js?id=…).
+  // Завантажувач gtag.js (async). config і події, що накопичились до згоди, ставимо в чергу лише тут —
+  // тобто після consent update, щоб GA4 обробив їх уже зі згодою.
   var loaded = false;
+  var pending = [];
   function loadTag() {
     if (loaded || !tagOn) return;
     loaded = true;
-    w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    w.gtag('js', new Date());
+    w.gtag('config', GA);
+    pending.forEach(function (e) { w.gtag('event', e[0], e[1]); });
+    pending = [];
     var s = document.createElement('script');
-    s.async = true; s.src = 'https://www.googletagmanager.com/gtm.js?id=' + GTM;
+    s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
     document.head.appendChild(s);
   }
   var idle = function (fn) { return 'requestIdleCallback' in w ? w.requestIdleCallback(fn, { timeout: 4000 }) : setTimeout(fn, 2500); };
@@ -46,11 +51,12 @@
     if (v === 'granted') { w.gtag('consent', 'update', { analytics_storage: 'granted' }); loadTag(); }
   });
 
-  // Подія в dataLayer для тригерів GTM («Спеціальна подія»). Без персональних даних: лише шлях сторінки і канал.
+  // Подія GA4 через gtag. Без персональних даних: лише шлях сторінки і канал месенджера.
   function track(event, params) {
-    var p = { event: event, page_path: location.pathname };
+    var p = { page_path: location.pathname };
     for (var k in params || {}) p[k] = params[k];
-    w.dataLayer.push(p);
+    if (loaded) w.gtag('event', event, p);
+    else if (tagOn) pending.push([event, p]);
   }
 
   // Кліки по телефону та месенджерах: phone_click / messenger_click

@@ -23,8 +23,8 @@ const canonical = abs(localePath(path, l));
 const desc = fill(description);
 const allCrumbs = crumbs.length ? [{ name: t('Головна', 'Главная'), href: '/' }, ...crumbs] : [];
 const ld = [organization(), ...(allCrumbs.length ? [bcSchema(allCrumbs)] : []), ...schema];
-// Google Tag Manager: ідентифікатор лише зі змінної середовища GTM_ID (workflow). Немає змінної — тег не підключається.
-const GTM_ID = /^GTM-[A-Z0-9]+$/.test((process.env.GTM_ID ?? '').trim()) ? process.env.GTM_ID!.trim() : '';
+// Google Analytics 4: ідентифікатор лише зі змінної середовища GA_ID (workflow). Немає змінної — тег не підключається.
+const GA_ID = /^G-[A-Z0-9]+$/.test((process.env.GA_ID ?? '').trim()) ? process.env.GA_ID!.trim() : '';
 ---
 <!doctype html>
 <html lang={l}>
@@ -62,7 +62,7 @@ const GTM_ID = /^GTM-[A-Z0-9]+$/.test((process.env.GTM_ID ?? '').trim()) ? proce
   <meta name="twitter:image" content={abs(ogImage)} />
   {ld.map((s) => <script type="application/ld+json" set:html={clean(s)} />)}
 </head>
-<body data-gtm={GTM_ID || undefined} data-lang={l}>
+<body data-ga-id={GA_ID || undefined} data-lang={l}>
   <a class="skip" href="#main">{t('Перейти до змісту', 'Перейти к содержимому')}</a>
   <Header noSwitch={noindex} />
   {allCrumbs.length > 0 && <Breadcrumbs items={allCrumbs} />}

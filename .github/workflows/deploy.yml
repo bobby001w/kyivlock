@@ -20,8 +20,8 @@ jobs:
     env:
       SITE_URL: https://kyivlock.kyiv.ua
       BASE_PATH: /
-      # Google Tag Manager; без цієї змінної тег на сайт не підключається.
-      GTM_ID: GTM-TQTV3CP7
+      # Google Analytics 4 (gtag.js); без цієї змінної тег на сайт не підключається.
+      GA_ID: G-7KX8MQ00XY
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v5
