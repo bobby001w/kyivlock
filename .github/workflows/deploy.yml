@@ -16,6 +16,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Власний домен (див. public/CNAME): сайт у корені домену, без префікса /kyivlock/.
+    env:
+      SITE_URL: https://kyivlock.kyiv.ua
+      BASE_PATH: /
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v5
