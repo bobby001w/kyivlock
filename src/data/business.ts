@@ -21,7 +21,6 @@ export const BUSINESS = {
   googleReviewUrl: '', // посилання «Залишити відгук» з Google Business Profile
   gscVerification: '',
   bingVerification: '',
-  ga4: '', // G-XXXXXXXXXX
   foundedYear: '',
   yearsExperience: '',
   jobsDone: '', // кількість виконаних виїздів (лише реальна цифра)

@@ -1,9 +1,9 @@
 // KyivLock — єдиний клієнтський скрипт (без бібліотек, ~3 КБ, defer).
-// Cookie-згода → відкладений GA4 (Consent Mode v2), події конверсій, час приїзду, анімації появи.
+// Cookie-згода → відкладений Google Tag Manager (Consent Mode v2), події дзвінків, час приїзду, анімації появи.
 (function () {
   var w = window;
-  var GA = document.body.dataset.ga4 || '';
-  var gaOn = /^G-[A-Z0-9]+$/.test(GA);
+  var GTM = document.body.dataset.gtm || '';
+  var tagOn = /^GTM-[A-Z0-9]+$/.test(GTM);
   w.dataLayer = w.dataLayer || [];
   w.gtag = function () { w.dataLayer.push(arguments); };
   w.gtag('consent', 'default', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' });
@@ -13,33 +13,44 @@
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* приватний режим */ } },
   };
 
+  // Завантажувач GTM (стандартний сніпет: подія gtm.js + async-скрипт gtm.js?id=…).
   var loaded = false;
-  function loadGA() {
-    if (loaded || !gaOn) return;
+  function loadTag() {
+    if (loaded || !tagOn) return;
     loaded = true;
+    w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
     var s = document.createElement('script');
-    s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA;
+    s.async = true; s.src = 'https://www.googletagmanager.com/gtm.js?id=' + GTM;
     document.head.appendChild(s);
-    w.gtag('js', new Date()); w.gtag('config', GA);
   }
   var idle = function (fn) { return 'requestIdleCallback' in w ? w.requestIdleCallback(fn, { timeout: 4000 }) : setTimeout(fn, 2500); };
+  // Відкладено: після події load у режимі очікування браузера або при першій взаємодії — що станеться раніше.
+  var EVS = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+  function scheduleTag() {
+    if (!tagOn) return;
+    var go = function () { EVS.forEach(function (n) { w.removeEventListener(n, go, true); }); loadTag(); };
+    EVS.forEach(function (n) { w.addEventListener(n, go, { capture: true, passive: true, once: true }); });
+    var onLoad = function () { idle(go); };
+    if (document.readyState === 'complete') onLoad(); else w.addEventListener('load', onLoad, { once: true });
+  }
 
   var consent = store.get('consent');
   var banner = document.getElementById('cookie');
-  if (consent === 'granted') { w.gtag('consent', 'update', { analytics_storage: 'granted' }); idle(loadGA); }
+  if (consent === 'granted') { w.gtag('consent', 'update', { analytics_storage: 'granted' }); scheduleTag(); }
   else if (!consent && banner) idle(function () { banner.hidden = false; });
   if (banner) banner.addEventListener('click', function (e) {
     var b = e.target.closest('[data-consent]');
     if (!b) return;
     var v = b.dataset.consent;
     store.set('consent', v); banner.hidden = true;
-    if (v === 'granted') { w.gtag('consent', 'update', { analytics_storage: 'granted' }); loadGA(); }
+    if (v === 'granted') { w.gtag('consent', 'update', { analytics_storage: 'granted' }); loadTag(); }
   });
 
+  // Подія в dataLayer для тригерів GTM («Спеціальна подія»). Без персональних даних: лише шлях сторінки і канал.
   function track(event, params) {
-    var p = { page_path: location.pathname };
+    var p = { event: event, page_path: location.pathname };
     for (var k in params || {}) p[k] = params[k];
-    w.gtag('event', event, p);
+    w.dataLayer.push(p);
   }
 
   // Кліки по телефону та месенджерах: phone_click / messenger_click

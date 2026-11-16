@@ -50,7 +50,7 @@ npm run check:similarity  # контроль схожості геосторін
 | `{{LEGAL_NAME}}`, `{{EDRPOU/FOP}}` | юрособа / ФОП і код |
 | `{{GOOGLE_BUSINESS_URL}}`, `{{GOOGLE_REVIEW_URL}}` | профіль Google і посилання «Залишити відгук» |
 | `{{FACEBOOK_URL}}`, `{{INSTAGRAM_URL}}` | соцмережі для `sameAs` (непотрібні — видаліть) |
-| `{{GSC_VERIFICATION_CODE}}`, `{{BING_VERIFICATION_CODE}}`, `{{GA4_ID}}` | верифікація і аналітика |
+| `{{GSC_VERIFICATION_CODE}}`, `{{BING_VERIFICATION_CODE}}` | верифікація (аналітика — через `GTM_ID` у workflow, розділ 4) |
 | `{{FOUNDED_YEAR}}`, `{{YEARS_EXPERIENCE}}`, `{{JOBS_DONE}}`, `{{AVG_ARRIVAL_MIN}}` | лише реальні цифри |
 | `{{MASTER_N_NAME}}`, `{{MASTER_N_YEARS}}` | майстри для «Про нас» і автора статей |
 | `rating: null` | заповніть **лише реальним** рейтингом Google, напр. `{ value: 4.9, count: 127 }` |
@@ -82,22 +82,38 @@ npm run check:similarity  # контроль схожості геосторін
 
 Перевірка після деплою: `curl -I http://www.kyivlock.com.ua/KYIV` має дати ланцюжок 301 → `https://kyivlock.com.ua/kyiv/`.
 
-## 4. Google Search Console, GA4, Bing
+## 4. Google Search Console, Google Tag Manager (GA4), Bing
 
 **GSC (основний спосіб — мета-тег):** Search Console → Add property → URL prefix `https://kyivlock.com.ua/` → HTML tag → скопіюйте `content="..."` у `gscVerification` у `business.ts` → задеплойте → Verify.
 **Запасний спосіб (DNS):** Add property → Domain → додайте TXT-запис `google-site-verification=...` у DNS Cloudflare → Verify. Цей спосіб покриває одразу http/https і www/без www.
 Після верифікації: Sitemaps → `sitemap.xml` → Submit. Перевірте розділ «Сторінки» через 3–7 днів.
 
-**GA4:** створіть потік Web → вставте `G-XXXX` у `ga4`. Скрипт завантажується лише після згоди в cookie-банері (Consent Mode v2) і в idle-час, тож не впливає на CWV. Події:
+**Google Tag Manager (контейнер `GTM-TQTV3CP7`).** Ідентифікатор задається лише змінною `GTM_ID` у `.github/workflows/deploy.yml` (поруч із `SITE_URL`). Немає змінної — тег на сайт не підключається (так і при локальній збірці без `GTM_ID`). GA4 налаштовується всередині контейнера GTM — окремо на сайт його не ставимо, щоб не дублювати.
 
-| Подія | Коли |
-|---|---|
-| `phone_click` | клік по будь-якому `tel:` |
-| `messenger_click` (параметр `channel`) | Telegram / Viber / WhatsApp |
-| `generate_lead` (параметр `form`) | успішна відправка форми |
-| `ignition_request` | заявка з форми «ключі запалювання» (з полями марка/модель/рік і ситуація) |
+Як завантажується (`public/js/main.js`):
+- Consent Mode v2: до згоди все `denied`; `gtm.js` **не завантажується**, доки відвідувач не натисне «Прийняти» в cookie-банері;
+- після згоди — асинхронно і відкладено: після події `load` у режимі очікування браузера або при першій взаємодії (дотик, клавіша, прокрутка), що раніше;
+- при натисканні «Прийняти» — одразу.
 
-У GA4 → Admin → Events позначте `phone_click`, `generate_lead`, `ignition_request` як ключові події (конверсії).
+Події (надсилаються в `dataLayer` як `{ event, page_path, channel? }`, без персональних даних — номер телефону не передається):
+
+| Подія | Коли | Параметри |
+|---|---|---|
+| `phone_click` | клік по будь-якому посиланню `tel:` з `data-ga="phone_click"` (шапка, кнопки, нижня панель, футер, контакти) | `page_path` |
+| `messenger_click` | клік по Telegram / Viber / WhatsApp | `page_path`, `channel` (`telegram` / `viber` / `whatsapp`) |
+
+Зараз посилань на месенджери на сайті немає (у `business.ts` не заповнені), тож `messenger_click` з'явиться після їх заповнення. Форм заявок на сайті немає — подій форм теж немає.
+
+**Налаштування в GTM:** Тригери → Нова → «Спеціальна подія», назва `phone_click` (і окремо `messenger_click`). Змінні → «Змінна рівня даних» `channel` (і за потреби `page_path`). Тег «Google Аналітика: подія GA4» з назвою події `{{Event}}` і цими тригерами. Опублікуйте контейнер. У GA4 → Адміністрування → Події позначте `phone_click` ключовою подією.
+
+**Як перевірити події:**
+1. **Швидко, без GTM:** відкрийте сайт → F12 → Console → натисніть кнопку телефону → введіть `dataLayer.filter(e => e.event === 'phone_click')` — побачите об'єкт події. (Перехід за `tel:` може відкрити програму дзвінків — це нормально.)
+2. **Tag Assistant:** у GTM натисніть «Попередній перегляд» → введіть `https://kyivlock.kyiv.ua/` → на сайті натисніть «Прийняти» в банері, потім кнопку телефону → у вікні Tag Assistant ліворуч з'явиться подія `phone_click` і видно, які теги спрацювали.
+3. **GA4:** Звіти → У реальному часі (або Адміністрування → DebugView під час попереднього перегляду GTM) — подія `phone_click` з'являється протягом хвилини.
+
+Пам'ятайте: доки в банері не натиснуто «Прийняти», тег не завантажується і в GA4 нічого не надходить (події лише накопичуються в `dataLayer`). Якщо раніше натискали «Лише необхідні», очистіть дані сайту в браузері, щоб банер з'явився знову.
+
+CSP для GTM і GA4 (`public/_headers`, `deploy/nginx.conf`) дозволяє лише `*.googletagmanager.com`, `*.google-analytics.com`, `*.analytics.google.com`. На GitHub Pages ці файли не застосовуються (заголовки там не налаштовуються) — вони діють при деплої на Cloudflare Pages або nginx.
 
 **Bing Webmaster Tools:** імпортуйте сайт із GSC в один клік або вставте код у `bingVerification`.
 
@@ -126,7 +142,7 @@ npm run check:similarity  # контроль схожості геосторін
 - ✅ CWV — Lighthouse Mobile (локально): Performance 99–100, LCP 1.4–1.5 с, CLS ≤ 0.007, TBT 0–100 мс; Accessibility, Best Practices, SEO — 100
 - ✅ robots.txt + динамічний sitemap.xml — індекс + 5 файлів за розділами з `lastmod`, генерується з реєстру сторінок
 - ✅ Canonical + 301, немає дублів — абсолютний самореферентний canonical, автоперевірка дублів title/description/H1
-- ✅ Google Search Console і GA4 з подіями — мета-тег + інструкція DNS, 4 події; ⚠️ коди треба вставити
+- ✅ Google Search Console і Google Tag Manager (GTM-TQTV3CP7) з подіями `phone_click` і `messenger_click`; ⚠️ код GSC треба вставити
 - ✅ Ієрархія ≤ 3 кліки, ЧПУ, breadcrumbs (+ `BreadcrumbList`), перелінковка — меню з випадаючими списками на HTML, футер з усіма районами, блоки «сусідні», «схожі послуги», «у вашому районі»; кожна сторінка має ≥ 3 вхідні посилання
 - ✅ Унікальні Title/Description, один H1, ієрархія H2–H3 — перевіряється при кожній збірці
 - ✅ Alt для зображень, стиснення, WebP/AVIF, `srcset`, `width/height`, lazy-load; ⚠️ плейсхолдери замініть реальними фото
